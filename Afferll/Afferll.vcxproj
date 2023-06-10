@@ -89,9 +89,11 @@ copy "$(TargetPath)" "$(TargetDir)..\Deploy\$(TargetName)$(TargetExt)" /y</Comma
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Afferll\Logger.cpp" />
     <ClCompile Include="src\Afferll\Application.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Afferll\Logger.h" />
     <ClInclude Include="src\Afferll\Application.h" />
     <ClInclude Include="src\Afferll\Base.h" />
     <ClInclude Include="src\Afferll.h" />
