@@ -1,14 +1,11 @@
 #pragma once
 #include "Base.h"
-
-#include <string>
-#include <stdio.h>
-#include <exception>
+#include "ToString.h"
 
 
 namespace Afferll
 {
-	class Logger
+	class AFRL_API Logger
 	{
 	public:
 		enum class LogLevel
@@ -29,113 +26,61 @@ namespace Afferll
 		void SetPrefix(const char* prefix);
 
 		template <typename ...Args>
-		void Massage(const char* msg, Args ...args);
+		void Massage(const char* msg, Args ...args) const;
 		template <typename ...Args>
-		void Debug(const char* msg, Args ...args);
+		void Debug(const char* msg, Args ...args) const;
 		template <typename ...Args>
-		void Info(const char* msg, Args ...args);
+		void Info(const char* msg, Args ...args) const;
 		template <typename ...Args>
-		void Success(const char* msg, Args ...args);
+		void Success(const char* msg, Args ...args) const;
 		template <typename ...Args>
-		void Warning(const char* msg, Args ...args);
+		void Warning(const char* msg, Args ...args) const;
 		template <typename ...Args>
-		void Error(const char* msg, Args ...args);
+		void Error(const char* msg, Args ...args) const;
 		template <typename ...Args>
-		void Fatal(const char* msg, Args ...args);
+		void Fatal(const char* msg, Args ...args) const;
 
 	private:
-		template <class T>
-		std::string to_string(T _Val);
+		void SetColor(LogLevel logLevel) const;
+		std::string GetColorString(LogLevel logLevel) const;
 
 		template <typename ...Args>
-		void Log(LogLevel logLevel, const char* msg, Args ...args);
+		void Log(LogLevel logLevel, const char* msg, Args ...args) const;
 
 		template <class T, typename ...Args>
-		std::string Format(std::string fmt, int i, T arg, Args ...args);
-		std::string Format(std::string fmt, int i);
+		std::string Format(std::string& fmt, uint64_t i, T arg, Args ...args) const;
+		std::string Format(std::string& fmt, uint64_t i) const;
 
 
 		std::string m_Prefix;
 		LogLevel m_LogLevel;
+		
+		static LogLevel s_CurrentColor;
+		static std::mutex s_LogLock;
 	};
 
-	template<typename ...Args>
-	inline void Logger::Massage(const char* msg, Args ...args)
-	{
-		Log(m_LogLevel, msg, args...);
-	}
-	template<typename ...Args>
-	inline void Logger::Debug(const char* msg, Args ...args)
-	{
-		Log(LogLevel::Debug, msg, args...);
-	}
-	template<typename ...Args>
-	inline void Logger::Info(const char* msg, Args ...args)
-	{
-		Log(LogLevel::Info, msg, args...);
-	}
-	template<typename ...Args>
-	inline void Logger::Success(const char* msg, Args ...args)
-	{
-		Log(LogLevel::Success, msg, args...);
-	}
-	template<typename ...Args>
-	inline void Logger::Warning(const char* msg, Args ...args)
-	{
-		Log(LogLevel::Warning, msg, args...);
-	}
-	template<typename ...Args>
-	inline void Logger::Error(const char* msg, Args ...args)
-	{
-		Log(LogLevel::DebErrorug, msg, args...);
-	}
-	template<typename ...Args>
-	inline void Logger::Fatal(const char* msg, Args ...args)
-	{
-		Log(LogLevel::Fatal, msg, args...);
-	}
-	
-	template<class T>
-	inline std::string Logger::to_string(T _Val)
-	{
-		return std::to_string(_Val);
-	}
+
 	template<>
-	inline std::string Logger::to_string<bool>(bool _Val)
-	{
-		return std::string(_Val ? "True" : "False");
-	}
-	template<>
-	inline std::string Logger::to_string<char>(char _Val)
-	{
-		return std::string(1, _Val);
-	}
-	template<>
-	inline std::string Logger::to_string<const char*>(const char* _Val)
-	{
-		return std::string(_Val);
-	}
-	template<>
-	inline std::string Logger::to_string<Logger::LogLevel>(LogLevel _Val)
+	inline static std::string ToString<Logger::LogLevel>(Logger::LogLevel _Val)
 	{
 		switch (_Val)
 		{
-		case LogLevel::Debug:
+		case Logger::LogLevel::Debug:
 			return std::string("Debug");
 
-		case LogLevel::Info:
+		case Logger::LogLevel::Info:
 			return std::string("Info");
 
-		case LogLevel::Success:
+		case Logger::LogLevel::Success:
 			return std::string("Success");
 
-		case LogLevel::Warning:
+		case Logger::LogLevel::Warning:
 			return std::string("Warning");
 
-		case LogLevel::Error:
+		case Logger::LogLevel::Error:
 			return std::string("Error");
 
-		case LogLevel::Fatal:
+		case Logger::LogLevel::Fatal:
 			return std::string("Fatal");
 
 		default:
@@ -143,68 +88,102 @@ namespace Afferll
 		}
 	}
 
+
 	template<typename ...Args>
-	inline void Logger::Log(LogLevel logLevel, const char* msg, Args ...args)
+	inline void Logger::Massage(const char* msg, Args ...args) const
 	{
-		// [hh::mm::ss] (logLevel) prefix - msg
-		printf("[%s] (%s) %s - %s", "hh::mm::ss", to_string(logLevel).c_str(), m_Prefix.c_str(), Format(msg, 0, args...).c_str());
-		printf("\n");
+		Log(m_LogLevel, msg, args...);
+	}
+	template<typename ...Args>
+	inline void Logger::Debug(const char* msg, Args ...args) const
+	{
+		Log(LogLevel::Debug, msg, args...);
+	}
+	template<typename ...Args>
+	inline void Logger::Info(const char* msg, Args ...args) const
+	{
+		Log(LogLevel::Info, msg, args...);
+	}
+	template<typename ...Args>
+	inline void Logger::Success(const char* msg, Args ...args) const
+	{
+		Log(LogLevel::Success, msg, args...);
+	}
+	template<typename ...Args>
+	inline void Logger::Warning(const char* msg, Args ...args) const
+	{
+		Log(LogLevel::Warning, msg, args...);
+	}
+	template<typename ...Args>
+	inline void Logger::Error(const char* msg, Args ...args) const
+	{
+		Log(LogLevel::Error, msg, args...);
+	}
+	template<typename ...Args>
+	inline void Logger::Fatal(const char* msg, Args ...args) const
+	{
+		Log(LogLevel::Fatal, msg, args...);
+	}
+
+	template<typename ...Args>
+	inline void Logger::Log(LogLevel logLevel, const char* msg, Args ...args) const
+	{
+		std::lock_guard<std::mutex> lock(s_LogLock);
+
+		char time[9];
+		std::time_t now = std::time(0);
+		std::strftime(time, sizeof(time), "%H:%M:%S", localtime(&now));
+
+		std::string strMsg = std::string(msg); // required for some reason
+		printf("%s[%s] (%s) %s - %s\n",
+			((s_CurrentColor != logLevel) ? GetColorString(logLevel).c_str() : ""),
+			time,
+			ToString(logLevel).c_str(),
+			m_Prefix.c_str(),
+			Format(strMsg, 0, args...).c_str()
+		);
 	}
 
 	template<class T, typename ...Args>
-	inline std::string Logger::Format(std::string fmt, int i, T arg, Args ...args)
+	inline std::string Logger::Format(std::string& fmt, uint64_t i, T arg, Args ...args) const
 	{
-		std::string msg = std::string(fmt);
-		bool openFound = false;
-		bool closeFound = false;
+		bool placeHolderFound = false;
 
-		for (int msgIndex = i; fmt[i]; ++i, ++msgIndex)
+		for (; fmt[i]; ++i)
 		{
-			if (openFound)
+			if (placeHolderFound)
 			{
-				if (fmt[i] == '{')
+				if (fmt[i] == fmt[i - 1])
 				{
-					msg.replace(msgIndex, 1, "");
-					--msgIndex;
-					openFound = false;
+					// str: *{{ -> {*{ -> {* -> *{ -> {*, same with '}'
+					fmt.replace(i, 1, "");
+					--i;
+					placeHolderFound = false;
 					continue;
 				}
+
 				else if (fmt[i] == '}')
 				{
-					msg.replace(msgIndex - 1, 2, "");
-					msgIndex -= 1;
+					// str: *{} -> {*} -> *({} was here) -> *arg -> arg*
+					fmt.replace(i - 1, 2, "");
+					--i;
 
-					std::string argStr = to_string(arg);
-					msg.insert(msgIndex, argStr);
-					msgIndex += argStr.length();
+					std::string argStr = ToString(arg);
+					fmt.insert(i, argStr);
+					i += argStr.length();
 
-					return Format(msg, msgIndex, args...);
+					return Format(fmt, i, args...);
 				}
-				else
-				{
+
+				else // str: *{ with no matching '{' or '}', and vice versa with '}'
 					throw std::exception("Invalid character.");
-				}
 			}
 
-			if (closeFound)
-			{
-				if (fmt[i] == '}')
-				{
-					msg.replace(msgIndex, 1, "");
-					--msgIndex;
-					closeFound = false;
-					continue;
-				}
-				else
-				{
-					throw std::exception("Invalid character.");
-				}
-			}
-
-			openFound = fmt[i] == '{';
-			closeFound = fmt[i] == '}';
+			placeHolderFound = fmt[i] == '{' || fmt[i] == '}';
 		}
+		if (placeHolderFound) // Place holder at end of string
+			throw std::exception("Invalid character.");
 
-		return msg;
+		return fmt;
 	}
 }

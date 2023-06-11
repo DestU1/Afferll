@@ -46,17 +46,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)bin\obj\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IncludePath>$(ProjectDir)src\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)bin\obj\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IncludePath>$(ProjectDir)src\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>AFRL_PLATFORM_WINDOWS;AFRL_LIBRARY;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>AFRL_PLATFORM_WINDOWS;AFRL_LIBRARY;_CRT_SECURE_NO_WARNINGS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeaderFile>AfrlPch.h</PrecompiledHeaderFile>
+      <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -64,7 +69,8 @@
       <OutputFile>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(TargetPath)" "$(TargetDir)..\Deploy\$(TargetName)$(TargetExt)" /y</Command>
+      <Command>mkdir "$(TargetDir)..\Deploy\"
+copy "$(TargetPath)" "$(TargetDir)..\Deploy\$(TargetName)$(TargetExt)" /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -73,8 +79,11 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>AFRL_PLATFORM_WINDOWS;AFRL_LIBRARY;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>AFRL_PLATFORM_WINDOWS;AFRL_LIBRARY;_CRT_SECURE_NO_WARNINGS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeaderFile>AfrlPch.h</PrecompiledHeaderFile>
+      <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -93,11 +102,14 @@ copy "$(TargetPath)" "$(TargetDir)..\Deploy\$(TargetName)$(TargetExt)" /y</Comma
     <ClCompile Include="src\Afferll\Application.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\AfrlPch.cpp" />
+    <ClInclude Include="src\AfrlPch.h" />
     <ClInclude Include="src\Afferll\Logger.h" />
     <ClInclude Include="src\Afferll\Application.h" />
     <ClInclude Include="src\Afferll\Base.h" />
     <ClInclude Include="src\Afferll.h" />
     <ClInclude Include="src\Afferll\EntryPoint.h" />
+    <ClInclude Include="src\Afferll\ToString.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
