@@ -1,6 +1,9 @@
 #pragma once
 
 
+#define BIT(x) (1 << (x))
+
+
 #ifdef AFRL_PLATFORM_WINDOWS
 	#ifdef AFRL_LIBRARY
 		#define AFRL_API __declspec(dllexport)

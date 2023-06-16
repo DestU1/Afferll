@@ -62,6 +62,7 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>AfrlPch.h</PrecompiledHeaderFile>
       <PreprocessToFile>false</PreprocessToFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -84,6 +85,7 @@ copy "$(TargetPath)" "$(TargetDir)..\Deploy\$(TargetName)$(TargetExt)" /y</Comma
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>AfrlPch.h</PrecompiledHeaderFile>
       <PreprocessToFile>false</PreprocessToFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -98,17 +100,26 @@ copy "$(TargetPath)" "$(TargetDir)..\Deploy\$(TargetName)$(TargetExt)" /y</Comma
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Afferll\Logger.cpp" />
-    <ClCompile Include="src\Afferll\Application.cpp" />
+    <ClCompile Include="src\Afferll\Events\Event.cpp" />
+    <ClCompile Include="src\Afferll\Events\KeyboardEvents.cpp" />
+    <ClCompile Include="src\Afferll\Events\MouseEvents.cpp" />
+    <ClCompile Include="src\Afferll\Events\WindowEvents.cpp" />
+    <ClCompile Include="src\Afferll\Base\Logger.cpp" />
+    <ClCompile Include="src\Afferll\Base\Application.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Afferll\Events\Event.h" />
+    <ClInclude Include="src\Afferll\Events\Events.h" />
+    <ClInclude Include="src\Afferll\Events\KeyboardEvents.h" />
+    <ClInclude Include="src\Afferll\Events\MouseEvents.h" />
+    <ClInclude Include="src\Afferll\Events\WindowEvents.h" />
     <ClInclude Include="src\AfrlPch.cpp" />
     <ClInclude Include="src\AfrlPch.h" />
-    <ClInclude Include="src\Afferll\Logger.h" />
-    <ClInclude Include="src\Afferll\Application.h" />
-    <ClInclude Include="src\Afferll\Base.h" />
+    <ClInclude Include="src\Afferll\Base\Logger.h" />
+    <ClInclude Include="src\Afferll\Base\Application.h" />
+    <ClInclude Include="src\Afferll\Base\Base.h" />
     <ClInclude Include="src\Afferll.h" />
-    <ClInclude Include="src\Afferll\EntryPoint.h" />
+    <ClInclude Include="src\Afferll\Base\EntryPoint.h" />
     <ClInclude Include="src\Afferll\ToString.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

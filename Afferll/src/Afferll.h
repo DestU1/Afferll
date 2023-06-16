@@ -1,6 +1,5 @@
 #pragma once
-
-
-#include "Afferll/Application.h"
-#include "Afferll/EntryPoint.h"
-#include "Afferll/Logger.h"
+#include "Afferll/Base/Application.h"
+#include "Afferll/Base/EntryPoint.h"
+#include "Afferll/Base/Logger.h"
+#include "Afferll/Events/Events.h"
