@@ -12,15 +12,6 @@ namespace Afferll
     {
     }
 
-    constexpr EventType Event::GetType()
-    {
-        return EventType::None;
-    }
-    constexpr EventGroup Event::GetGroups()
-    {
-        return EventGroup::None;
-    }
-
     bool Event::IsInGroup(EventGroup group)
     {
         return (uint64_t)GetGroups() & (uint64_t)group;
@@ -33,5 +24,14 @@ namespace Afferll
     void Event::Resolve()
     {
         m_Handled = true;
+    }
+
+
+    EventDispacher::EventDispacher(Event& e)
+        : m_Event(e)
+    {
+    }
+    EventDispacher::~EventDispacher()
+    {
     }
 }

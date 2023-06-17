@@ -57,7 +57,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>AFRL_PLATFORM_WINDOWS;AFRL_LIBRARY;_CRT_SECURE_NO_WARNINGS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>AFRL_LIBRARY;_CRT_SECURE_NO_WARNINGS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>AfrlPch.h</PrecompiledHeaderFile>
@@ -80,7 +80,7 @@ copy "$(TargetPath)" "$(TargetDir)..\Deploy\$(TargetName)$(TargetExt)" /y</Comma
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>AFRL_PLATFORM_WINDOWS;AFRL_LIBRARY;_CRT_SECURE_NO_WARNINGS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>AFRL_LIBRARY;_CRT_SECURE_NO_WARNINGS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>AfrlPch.h</PrecompiledHeaderFile>
@@ -106,8 +106,12 @@ copy "$(TargetPath)" "$(TargetDir)..\Deploy\$(TargetName)$(TargetExt)" /y</Comma
     <ClCompile Include="src\Afferll\Events\WindowEvents.cpp" />
     <ClCompile Include="src\Afferll\Base\Logger.cpp" />
     <ClCompile Include="src\Afferll\Base\Application.cpp" />
+    <ClCompile Include="src\Afferll\Base\Window.cpp" />
+    <ClCompile Include="src\Afferll\Platform\Windows\WindowsWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Afferll\Base\Assert.h" />
+    <ClInclude Include="src\Afferll\Base\PlatformDetection.h" />
     <ClInclude Include="src\Afferll\Events\Event.h" />
     <ClInclude Include="src\Afferll\Events\Events.h" />
     <ClInclude Include="src\Afferll\Events\KeyboardEvents.h" />
@@ -121,6 +125,8 @@ copy "$(TargetPath)" "$(TargetDir)..\Deploy\$(TargetName)$(TargetExt)" /y</Comma
     <ClInclude Include="src\Afferll.h" />
     <ClInclude Include="src\Afferll\Base\EntryPoint.h" />
     <ClInclude Include="src\Afferll\ToString.h" />
+    <ClInclude Include="src\Afferll\Base\Window.h" />
+    <ClInclude Include="src\Afferll\Platform\Windows\WindowsWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

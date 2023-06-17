@@ -1,40 +1,41 @@
 #pragma once
-#include "AfrlPch.h"
 #include "Afferll/Events/Event.h"
 
 
 namespace Afferll
 {
-	class WindowMoveEvent : public Event
+	class AFRL_API WindowMoveEvent : public Event
 	{
 	public:
-		WindowMoveEvent(uint64_t top, uint64_t left);
+		WindowMoveEvent(int64_t left, int64_t top);
 		virtual ~WindowMoveEvent();
 
-		static constexpr EventType GetType() { return EventType::WindowMove; }
-		static constexpr EventGroup GetGroups()
+		virtual EventType GetType() { return EventType::WindowMove; }
+		static EventType GetStaticType() { return EventType::WindowMove; }
+		static EventGroup GetGroups()
 		{
 			return (EventGroup)(
 				(uint64_t)EventGroup::Window
 			);
 		}
 
-		uint64_t GetTop();
-		uint64_t GetLeft();
+		int64_t GetTop();
+		int64_t GetLeft();
 
 	private:
-		uint64_t m_Top, m_Left;
+		int64_t m_Top, m_Left;
 	};
 
 
-	class WindowFocusEvent : public Event
+	class AFRL_API WindowFocusEvent : public Event
 	{
 	public:
 		WindowFocusEvent();
 		virtual ~WindowFocusEvent();
 
-		static constexpr EventType GetType() { return EventType::WindowFocus; }
-		static constexpr EventGroup GetGroups()
+		virtual EventType GetType() { return EventType::WindowFocus; }
+		static EventType GetStaticType() { return EventType::WindowFocus; }
+		static EventGroup GetGroups()
 		{
 			return (EventGroup)(
 				(uint64_t)EventGroup::Window
@@ -43,14 +44,15 @@ namespace Afferll
 	};
 
 
-	class WindowFocusLossEvent : public Event
+	class AFRL_API WindowFocusLossEvent : public Event
 	{
 	public:
 		WindowFocusLossEvent();
 		virtual ~WindowFocusLossEvent();
 
-		static constexpr EventType GetType() { return EventType::WindowFocusLoss; }
-		static constexpr EventGroup GetGroups()
+		virtual EventType GetType() { return EventType::WindowFocusLoss; }
+		static EventType GetStaticType() { return EventType::WindowFocusLoss; }
+		static EventGroup GetGroups()
 		{
 			return (EventGroup)(
 				(uint64_t)EventGroup::Window
@@ -59,14 +61,15 @@ namespace Afferll
 	};
 
 
-	class WindowResizeEvent : public Event
+	class AFRL_API WindowResizeEvent : public Event
 	{
 	public:
 		WindowResizeEvent(uint64_t width, uint64_t height);
 		virtual ~WindowResizeEvent();
 
-		static constexpr EventType GetType() { return EventType::WindowResize; }
-		static constexpr EventGroup GetGroups()
+		virtual EventType GetType() { return EventType::WindowResize; }
+		static EventType GetStaticType() { return EventType::WindowResize; }
+		static EventGroup GetGroups()
 		{
 			return (EventGroup)(
 				(uint64_t)EventGroup::Window
@@ -81,14 +84,15 @@ namespace Afferll
 	};
 
 
-	class WindowCloseEvent : public Event
+	class AFRL_API WindowCloseEvent : public Event
 	{
 	public:
 		WindowCloseEvent();
 		virtual ~WindowCloseEvent();
 
-		static constexpr EventType GetType() { return EventType::WindowClose; }
-		static constexpr EventGroup GetGroups()
+		virtual EventType GetType() { return EventType::WindowClose; }
+		static EventType GetStaticType() { return EventType::WindowClose; }
+		static EventGroup GetGroups()
 		{
 			return (EventGroup)(
 				(uint64_t)EventGroup::Window

@@ -4,19 +4,19 @@
 
 namespace Afferll
 {
-    WindowMoveEvent::WindowMoveEvent(uint64_t top, uint64_t left)
-    	: Event(), m_Top(top), m_Left(left)
+    WindowMoveEvent::WindowMoveEvent(int64_t left, int64_t top)
+    	: Event(), m_Left(left), m_Top(top)
     {
     }
     WindowMoveEvent::~WindowMoveEvent()
     {
     }
     
-    uint64_t WindowMoveEvent::GetTop()
+    int64_t WindowMoveEvent::GetTop()
     {
     	return m_Top;
     }
-    uint64_t WindowMoveEvent::GetLeft()
+    int64_t WindowMoveEvent::GetLeft()
     {
     	return m_Left;
     }

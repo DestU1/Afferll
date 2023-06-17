@@ -40,6 +40,10 @@ namespace Afferll
 		template <typename ...Args>
 		void Fatal(const char* msg, Args ...args) const;
 
+
+		static Logger s_EngineLogger;
+		static Logger s_Logger;
+
 	private:
 		void SetColor(LogLevel logLevel) const;
 		std::string GetColorString(LogLevel logLevel) const;
@@ -54,14 +58,14 @@ namespace Afferll
 
 		std::string m_Prefix;
 		LogLevel m_LogLevel;
-		
+
 		static LogLevel s_CurrentColor;
 		static std::mutex s_LogLock;
 	};
 
 
 	template<>
-	inline static std::string ToString<Logger::LogLevel>(Logger::LogLevel _Val)
+	inline AFRL_API std::string ToString<Logger::LogLevel>(Logger::LogLevel _Val)
 	{
 		switch (_Val)
 		{
@@ -128,6 +132,7 @@ namespace Afferll
 	template<typename ...Args>
 	inline void Logger::Log(LogLevel logLevel, const char* msg, Args ...args) const
 	{
+		// TODO: acquire lock just before printing to hold it for as little as possible
 		std::lock_guard<std::mutex> lock(s_LogLock);
 
 		char time[9];
@@ -135,11 +140,11 @@ namespace Afferll
 		std::strftime(time, sizeof(time), "%H:%M:%S", localtime(&now));
 
 		std::string strMsg = std::string(msg); // required for some reason
-		printf("%s[%s] (%s) %s - %s\n",
+		printf("%s[%s] %s (%s) - %s\n",
 			((s_CurrentColor != logLevel) ? GetColorString(logLevel).c_str() : ""),
 			time,
-			ToString(logLevel).c_str(),
 			m_Prefix.c_str(),
+			ToString(logLevel).c_str(),
 			Format(strMsg, 0, args...).c_str()
 		);
 	}

@@ -44,4 +44,18 @@ namespace Afferll
     {
     	return m_KeyCode;
     }
+
+
+    KeyTypeEvent::KeyTypeEvent(uint8_t charCode)
+        : Event(), m_CharCode(charCode)
+    {
+    }
+    KeyTypeEvent::~KeyTypeEvent()
+    {
+    }
+
+    uint8_t KeyTypeEvent::GetCharCode()
+    {
+        return m_CharCode;
+    }
 }

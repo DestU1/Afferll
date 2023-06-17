@@ -15,6 +15,7 @@ namespace Afferll
 		KeyPress,
 		KeyRelease,
 		KeyRepeat,
+		KeyType,
 		MousePress,
 		MouseRelease,
 		MouseScroll,
@@ -31,14 +32,15 @@ namespace Afferll
 		Release	 = BIT(5)
 	};
 
-	class Event abstract
+	class AFRL_API Event abstract
 	{
 	public:
 		Event();
 		virtual ~Event();
 
-		static constexpr EventType GetType();
-		static constexpr EventGroup GetGroups();
+		virtual EventType GetType() { return EventType::None; }
+		static EventType GetStaticType() { return EventType::None; }
+		static EventGroup GetGroups() { return EventGroup::None; }
 
 		bool IsInGroup(EventGroup group);
 		bool IsHandled();
@@ -50,11 +52,10 @@ namespace Afferll
 	};
 
 
-	template <class T>
 	class EventDispacher
 	{
 	public:
-		EventDispacher(T& e);
+		EventDispacher(Event& e);
 		~EventDispacher();
 
 		template<class T, typename F>
@@ -64,27 +65,17 @@ namespace Afferll
 		Event& m_Event;
 	};
 
-	template<class T>
-	inline EventDispacher<T>::EventDispacher(T& e)
-		: m_Event(e)
-	{
-	}
-	template<class T>
-	inline EventDispacher<T>::~EventDispacher()
-	{
-	}
-
-	template<class T>
 	template<class U, typename F>
-	inline bool EventDispacher<T>::Dispach(const F& handler)
+	inline bool EventDispacher::Dispach(const F& handler)
 	{
 		if (m_Event.IsHandled())
 			return false;
 
-		if constexpr (T::GetType() == U::GetType())
+		if (m_Event.GetType() == U::GetStaticType())
+		{
 			handler(static_cast<U&>(m_Event));
-		if constexpr (T::GetType() == U::GetType())
 			return true;
+		}
 
 		return false;
 	}

@@ -7,6 +7,9 @@ namespace Afferll
 	Logger::LogLevel Logger::s_CurrentColor = Logger::LogLevel::Info;
 	std::mutex Logger::s_LogLock;
 
+	Logger Logger::s_EngineLogger("Engine");
+	Logger Logger::s_Logger("Logger");
+
 	Logger::Logger(std::string prefix, LogLevel logLevel)
 		: m_Prefix(prefix), m_LogLevel(logLevel)
 	{

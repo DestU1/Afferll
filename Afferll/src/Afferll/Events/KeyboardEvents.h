@@ -1,18 +1,18 @@
 #pragma once
-#include "AfrlPch.h"
 #include "Afferll/Events/Event.h"
 
 
 namespace Afferll
 {
-	class KeyPressEvent : public Event
+	class AFRL_API KeyPressEvent : public Event
 	{
 	public:
 		KeyPressEvent(uint8_t keyCode);
 		virtual ~KeyPressEvent();
 
-		static constexpr EventType GetType() { return EventType::KeyPress; }
-		static constexpr EventGroup GetGroups()
+		virtual EventType GetType() { return EventType::KeyPress; }
+		static EventType GetStaticType() { return EventType::KeyPress; }
+		static EventGroup GetGroups()
 		{
 			return (EventGroup)(
 				(uint64_t)EventGroup::Keyboard |
@@ -28,14 +28,15 @@ namespace Afferll
 	};
 
 
-	class KeyReleaseEvent : public Event
+	class AFRL_API KeyReleaseEvent : public Event
 	{
 	public:
 		KeyReleaseEvent(uint8_t keyCode);
 		virtual ~KeyReleaseEvent();
 
-		static constexpr EventType GetType() { return EventType::KeyRelease; }
-		static constexpr EventGroup GetGroups()
+		virtual EventType GetType() { return EventType::KeyRelease; }
+		static EventType GetStaticType() { return EventType::KeyRelease; }
+		static EventGroup GetGroups()
 		{
 			return (EventGroup)(
 				(uint64_t)EventGroup::Keyboard |
@@ -51,14 +52,15 @@ namespace Afferll
 	};
 
 
-	class KeyRepeatEvent : public Event
+	class AFRL_API KeyRepeatEvent : public Event
 	{
 	public:
 		KeyRepeatEvent(uint8_t keyCode);
 		virtual ~KeyRepeatEvent();
 
-		static constexpr EventType GetType() { return EventType::KeyRepeat; }
-		static constexpr EventGroup GetGroups()
+		virtual EventType GetType() { return EventType::KeyRepeat; }
+		static EventType GetStaticType() { return EventType::KeyRepeat; }
+		static EventGroup GetGroups()
 		{
 			return (EventGroup)(
 				(uint64_t)EventGroup::Keyboard
@@ -69,5 +71,27 @@ namespace Afferll
 
 	private:
 		uint8_t m_KeyCode;
+	};
+
+
+	class AFRL_API KeyTypeEvent : public Event
+	{
+	public:
+		KeyTypeEvent(uint8_t charCode);
+		virtual ~KeyTypeEvent();
+
+		virtual EventType GetType() { return EventType::KeyType; }
+		static EventType GetStaticType() { return EventType::KeyType; }
+		static EventGroup GetGroups()
+		{
+			return (EventGroup)(
+				(uint64_t)EventGroup::Keyboard
+			);
+		}
+
+		uint8_t GetCharCode();
+
+	private:
+		uint8_t m_CharCode;
 	};
 }

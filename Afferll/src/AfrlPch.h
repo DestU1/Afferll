@@ -6,6 +6,9 @@
 #include <ctime>
 #include <mutex>
 
+
+#include "Afferll/Base/PlatformDetection.h"
+
 #ifdef AFRL_PLATFORM_WINDOWS
-#include <Windows.h>
+	#include <Windows.h>
 #endif

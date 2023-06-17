@@ -1,5 +1,4 @@
 #pragma once
-#include "AfrlPch.h"
 #include "Afferll/Events/Event.h"
 
 
@@ -15,14 +14,15 @@ namespace Afferll
 	};
 
 
-	class MousePressEvent : public Event
+	class AFRL_API MousePressEvent : public Event
 	{
 	public:
 		MousePressEvent(MouseButton mouseButton);
 		virtual ~MousePressEvent();
 
-		static constexpr EventType GetType() { return EventType::MousePress; }
-		static constexpr EventGroup GetGroups() 
+		virtual EventType GetType() { return EventType::MousePress; }
+		static EventType GetStaticType() { return EventType::MousePress; }
+		static EventGroup GetGroups() 
 		{
 			return (EventGroup)(
 				(uint64_t)EventGroup::Mouse |
@@ -38,14 +38,15 @@ namespace Afferll
 	};
 
 
-	class MouseReleaseEvent : public Event
+	class AFRL_API MouseReleaseEvent : public Event
 	{
 	public:
 		MouseReleaseEvent(MouseButton mouseButton);
 		virtual ~MouseReleaseEvent();
 
-		static constexpr EventType GetType() { return EventType::MouseRelease; }
-		static constexpr EventGroup GetGroups()
+		virtual EventType GetType() { return EventType::MouseRelease; }
+		static EventType GetStaticType() { return EventType::MouseRelease; }
+		static EventGroup GetGroups()
 		{
 			return (EventGroup)(
 				(uint64_t)EventGroup::Mouse   |
@@ -61,46 +62,48 @@ namespace Afferll
 	};
 
 
-	class MouseMoveEvent : public Event
+	class AFRL_API MouseMoveEvent : public Event
 	{
 	public:
-		MouseMoveEvent(uint64_t xPos, uint64_t yPos);
+		MouseMoveEvent(int64_t xPos, int64_t yPos);
 		virtual ~MouseMoveEvent();
 
-		static constexpr EventType GetType() { return EventType::MouseMove; }
-		static constexpr EventGroup GetGroups()
+		virtual EventType GetType() { return EventType::MouseMove; }
+		static EventType GetStaticType() { return EventType::MouseMove; }
+		static EventGroup GetGroups()
 		{
 			return (EventGroup)(
 				(uint64_t)EventGroup::Mouse
 			);
 		}
 
-		uint64_t GetX();
-		uint64_t GetY();
+		int64_t GetXPos();
+		int64_t GetYPos();
 
 	private:
-		uint64_t m_Xpos, m_Ypos;
+		int64_t m_Xpos, m_Ypos;
 	};
 
 
-	class MouseScrollEvent : public Event
+	class AFRL_API MouseScrollEvent : public Event
 	{
 	public:
-		MouseScrollEvent(uint64_t xOffset, uint64_t yOffset);
+		MouseScrollEvent(int64_t xOffset, int64_t yOffset);
 		virtual ~MouseScrollEvent();
 
-		static constexpr EventType GetType() { return EventType::MouseScroll; }
-		static constexpr EventGroup GetGroups()
+		virtual EventType GetType() { return EventType::MouseScroll; }
+		static EventType GetStaticType() { return EventType::MouseScroll; }
+		static EventGroup GetGroups()
 		{
 			return (EventGroup)(
 				(uint64_t)EventGroup::Mouse
 			);
 		}
 
-		uint64_t GetXOffset();
-		uint64_t GetYlOffset();
+		int64_t GetXOffset();
+		int64_t GetYOffset();
 
 	private:
-		uint64_t m_XOffset, m_YOffset;
+		int64_t m_XOffset, m_YOffset;
 	};
 }

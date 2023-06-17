@@ -32,7 +32,7 @@ namespace Afferll
     }
     
     
-    MouseMoveEvent::MouseMoveEvent(uint64_t xPos, uint64_t yPos)
+    MouseMoveEvent::MouseMoveEvent(int64_t xPos, int64_t yPos)
     	: m_Xpos(xPos), m_Ypos(yPos)
     {
     }
@@ -40,17 +40,17 @@ namespace Afferll
     {
     }
 
-    uint64_t MouseMoveEvent::GetX()
+    int64_t MouseMoveEvent::GetXPos()
     {
     	return m_Xpos;
     }
-    uint64_t MouseMoveEvent::GetY()
+    int64_t MouseMoveEvent::GetYPos()
     {
     	return m_Ypos;
     }
     
     
-    MouseScrollEvent::MouseScrollEvent(uint64_t xOffset, uint64_t yOffset)
+    MouseScrollEvent::MouseScrollEvent(int64_t xOffset, int64_t yOffset)
     	: m_XOffset(xOffset), m_YOffset(yOffset)
     {
     }
@@ -58,11 +58,11 @@ namespace Afferll
     {
     }
     
-    uint64_t MouseScrollEvent::GetXOffset()
+    int64_t MouseScrollEvent::GetXOffset()
     {
     	return m_XOffset;
     }
-    uint64_t MouseScrollEvent::GetYlOffset()
+    int64_t MouseScrollEvent::GetYOffset()
     {
     	return m_YOffset;
     }
