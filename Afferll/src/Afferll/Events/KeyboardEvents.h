@@ -1,5 +1,6 @@
 #pragma once
 #include "Afferll/Events/Event.h"
+#include "KeyCode.h"
 
 
 namespace Afferll
@@ -7,7 +8,7 @@ namespace Afferll
 	class AFRL_API KeyPressEvent : public Event
 	{
 	public:
-		KeyPressEvent(uint8_t keyCode);
+		KeyPressEvent(KeyCode keyCode);
 		virtual ~KeyPressEvent();
 
 		virtual EventType GetType() { return EventType::KeyPress; }
@@ -21,17 +22,17 @@ namespace Afferll
 			);
 		}
 
-		uint8_t GetKeyCode();
+		KeyCode GetKeyCode();
 
 	private:
-		uint8_t m_KeyCode;
+		KeyCode m_KeyCode;
 	};
 
 
 	class AFRL_API KeyReleaseEvent : public Event
 	{
 	public:
-		KeyReleaseEvent(uint8_t keyCode);
+		KeyReleaseEvent(KeyCode keyCode);
 		virtual ~KeyReleaseEvent();
 
 		virtual EventType GetType() { return EventType::KeyRelease; }
@@ -45,17 +46,17 @@ namespace Afferll
 			);
 		}
 
-		uint8_t GetKeyCode();
+		KeyCode GetKeyCode();
 
 	private:
-		uint8_t m_KeyCode;
+		KeyCode m_KeyCode;
 	};
 
 
 	class AFRL_API KeyRepeatEvent : public Event
 	{
 	public:
-		KeyRepeatEvent(uint8_t keyCode);
+		KeyRepeatEvent(KeyCode keyCode);
 		virtual ~KeyRepeatEvent();
 
 		virtual EventType GetType() { return EventType::KeyRepeat; }
@@ -67,17 +68,17 @@ namespace Afferll
 			);
 		}
 
-		uint8_t GetKeyCode();
+		KeyCode GetKeyCode();
 
 	private:
-		uint8_t m_KeyCode;
+		KeyCode m_KeyCode;
 	};
 
 
 	class AFRL_API KeyTypeEvent : public Event
 	{
 	public:
-		KeyTypeEvent(uint8_t charCode);
+		KeyTypeEvent(char _char);
 		virtual ~KeyTypeEvent();
 
 		virtual EventType GetType() { return EventType::KeyType; }
@@ -89,9 +90,9 @@ namespace Afferll
 			);
 		}
 
-		uint8_t GetCharCode();
+		char GetChar();
 
 	private:
-		uint8_t m_CharCode;
+		char m_Char;
 	};
 }

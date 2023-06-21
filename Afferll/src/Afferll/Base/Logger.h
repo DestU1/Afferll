@@ -1,5 +1,5 @@
 #pragma once
-#include "Afferll/Base/Base.h"
+#include "Afferll/Base/Macros/Base.h"
 #include "Afferll/ToString.h"
 
 
@@ -49,7 +49,7 @@ namespace Afferll
 		std::string GetColorString(LogLevel logLevel) const;
 
 		template <typename ...Args>
-		void Log(LogLevel logLevel, const char* msg, Args ...args) const;
+		void Log(LogLevel logLevel, std::string msg, Args ...args) const;
 
 		template <class T, typename ...Args>
 		std::string Format(std::string& fmt, uint64_t i, T arg, Args ...args) const;
@@ -71,19 +71,14 @@ namespace Afferll
 		{
 		case Logger::LogLevel::Debug:
 			return std::string("Debug");
-
 		case Logger::LogLevel::Info:
 			return std::string("Info");
-
 		case Logger::LogLevel::Success:
 			return std::string("Success");
-
 		case Logger::LogLevel::Warning:
 			return std::string("Warning");
-
 		case Logger::LogLevel::Error:
 			return std::string("Error");
-
 		case Logger::LogLevel::Fatal:
 			return std::string("Fatal");
 
@@ -130,8 +125,12 @@ namespace Afferll
 	}
 
 	template<typename ...Args>
-	inline void Logger::Log(LogLevel logLevel, const char* msg, Args ...args) const
+	inline void Logger::Log(LogLevel logLevel, std::string msg, Args ...args) const
 	{
+		std::string colorString = (s_CurrentColor != logLevel) ? GetColorString(logLevel).c_str() : "";
+		std::string logLevelString = ToString(logLevel);
+		std::string formatedString = Format(msg, 0, args...);
+
 		// TODO: acquire lock just before printing to hold it for as little as possible
 		std::lock_guard<std::mutex> lock(s_LogLock);
 
@@ -139,13 +138,12 @@ namespace Afferll
 		std::time_t now = std::time(0);
 		std::strftime(time, sizeof(time), "%H:%M:%S", localtime(&now));
 
-		std::string strMsg = std::string(msg); // required for some reason
 		printf("%s[%s] %s (%s) - %s\n",
-			((s_CurrentColor != logLevel) ? GetColorString(logLevel).c_str() : ""),
+			colorString.c_str(),
 			time,
 			m_Prefix.c_str(),
-			ToString(logLevel).c_str(),
-			Format(strMsg, 0, args...).c_str()
+			logLevelString.c_str(),
+			formatedString.c_str()
 		);
 	}
 

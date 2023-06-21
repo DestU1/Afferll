@@ -1,5 +1,6 @@
 #pragma once
-#include "Afferll/Base/Base.h"
+#include "Afferll/Base/Macros/Base.h"
+#include "Afferll/Events/Events.h"
 
 
 namespace Afferll
@@ -11,6 +12,11 @@ namespace Afferll
 		virtual ~Application();
 
 		void Run();
+
+		void OnEvent(Event& e);
+
+	private:
+		bool m_Running;
 	};
 
 	Application* CreateApplication();

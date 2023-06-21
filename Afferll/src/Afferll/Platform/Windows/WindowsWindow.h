@@ -1,10 +1,11 @@
 #pragma once
-#include "Afferll/Base/Base.h"
+#include "Afferll/Base/Macros/Base.h"
 #include "Afferll/Base/Window.h"
 
 
 namespace Afferll
 {
+	// TODO: use unorderd maps
 	class WindowsWindowManager
 	{
 	private:
@@ -41,6 +42,9 @@ namespace Afferll
 		static LRESULT WINAPI WindowProcDispacher(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	private:
+		static KeyCode GetKeyCodeByVk(WPARAM wParam, LPARAM lParam);
+
+
 		static WindowsWindowManager* s_Instance;
 		HINSTANCE m_InstanceHandle;
 		std::string m_WindowClassName;
@@ -66,6 +70,7 @@ namespace Afferll
 
 	private:
 		void Initialize();
+
 
 		WindowProperties m_Properties;
 		EventCallback_t m_EventCallback;

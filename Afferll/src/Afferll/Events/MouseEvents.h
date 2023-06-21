@@ -1,19 +1,10 @@
 #pragma once
 #include "Afferll/Events/Event.h"
+#include "Afferll/Events/KeyCode.h"
 
 
 namespace Afferll
 {
-	enum class MouseButton
-	{
-		Left     = 0,
-		Right    = 1,
-		Middle   = 2,
-		XButton1 = 3,
-		XButton2 = 4
-	};
-
-
 	class AFRL_API MousePressEvent : public Event
 	{
 	public:

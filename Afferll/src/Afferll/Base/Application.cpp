@@ -6,6 +6,7 @@
 namespace Afferll
 {
 	Application::Application()
+		: m_Running(false)
 	{
 		AFRL_LOG(Debug, "Application initialization.");
 	}
@@ -15,65 +16,61 @@ namespace Afferll
 
 	void kp(KeyPressEvent& e)
 	{
-		AFRL_LOG(Debug, "Key press {}.", e.GetKeyCode());
+		AFRL_LOG(Debug, "Type: {}, ({}).", e.GetType(), e.GetKeyCode());
 	}
 	void kr(KeyReleaseEvent& e)
 	{
-		AFRL_LOG(Debug, "Key release {}.", e.GetKeyCode());
+		AFRL_LOG(Debug, "Type: {}, ({}).", e.GetType(), e.GetKeyCode());
 	}
 	void krp(KeyRepeatEvent& e)
 	{
-		AFRL_LOG(Debug, "Key repeat {}.", e.GetKeyCode());
+		AFRL_LOG(Debug, "Type: {}, ({}).", e.GetType(), e.GetKeyCode());
 	}
 	void kt(KeyTypeEvent& e)
 	{
-		AFRL_LOG(Debug, "Key type {}.", (char)e.GetCharCode());
-	}
-	void mm(MouseMoveEvent& e)
-	{
-		AFRL_LOG(Debug, "Mouse move {}, {}.", e.GetXPos(), e.GetYPos());
+		AFRL_LOG(Debug, "Type: {}, ({}).", e.GetType(), e.GetChar());
 	}
 	void mp(MousePressEvent& e)
 	{
-		AFRL_LOG(Debug, "Mouse press {}.", (int)e.GetMouseButton());
+		AFRL_LOG(Debug, "Type: {}, ({}).", e.GetType(), e.GetMouseButton());
 	}
 	void mr(MouseReleaseEvent& e)
 	{
-		AFRL_LOG(Debug, "Mouse release {}.", (int)e.GetMouseButton());
+		AFRL_LOG(Debug, "Type: {}, ({}).", e.GetType(), e.GetMouseButton());
 	}
 	void ms(MouseScrollEvent& e)
 	{
-		AFRL_LOG(Debug, "Mouse scroll {}, {}.", e.GetXOffset(), e.GetYOffset());
+		AFRL_LOG(Debug, "Type: {}, ({}, {}).", e.GetType(), e.GetXOffset(), e.GetYOffset());
 	}
 	void wm(WindowMoveEvent& e)
 	{
-		AFRL_LOG(Debug, "Window move {}, {}.", e.GetLeft(), e.GetTop());
+		AFRL_LOG(Debug, "Type: {}, ({}, {}).", e.GetType(), e.GetLeft(), e.GetTop());
 	}
 	void wf(WindowFocusEvent& e)
 	{
-		AFRL_LOG(Debug, "Window focus");
+		AFRL_LOG(Debug, "Type: {}", e.GetType());
 	}
 	void wfl(WindowFocusLossEvent& e)
 	{
-		AFRL_LOG(Debug, "Window focus loss");
+		AFRL_LOG(Debug, "Type: {}", e.GetType());
 	}
 	void wr(WindowResizeEvent& e)
 	{
-		AFRL_LOG(Debug, "Window resize {}, {}", e.GetWidth(), e.GetHeight());
+		AFRL_LOG(Debug, "Type: {}, ({}, {})", e.GetType(), e.GetWidth(), e.GetHeight());
 	}
 	void wc(WindowCloseEvent& e)
 	{
-		AFRL_LOG(Debug, "Window close");
+		AFRL_LOG(Debug, "Type: {}", e.GetType());
 	}
+	
 
-	void fetch(Event& e)
+	void Application::OnEvent(Event& e)
 	{
 		EventDispacher fetcher(e);
 		fetcher.Dispach<KeyPressEvent>(kp);
 		fetcher.Dispach<KeyReleaseEvent>(kr);
 		fetcher.Dispach<KeyRepeatEvent>(krp);
 		fetcher.Dispach<KeyTypeEvent>(kt);
-		fetcher.Dispach<MouseMoveEvent>(mm);
 		fetcher.Dispach<MousePressEvent>(mp);
 		fetcher.Dispach<MouseReleaseEvent>(mr);
 		fetcher.Dispach<MouseScrollEvent>(ms);
@@ -87,12 +84,12 @@ namespace Afferll
 	void Application::Run()
 	{
 		Window* window = Window::Create();
-		window->SetEventCallback(fetch);
+		window->SetEventCallback((Window::EventCallback_t&)std::bind(&Application::OnEvent, this));
 
-		while (!GetAsyncKeyState(VK_END))
+		m_Running = true;
+		while (m_Running)
 		{
 			window->OnUpdate();
-			continue;
 		}
 
 		delete window;

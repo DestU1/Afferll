@@ -108,25 +108,31 @@ copy "$(TargetPath)" "$(TargetDir)..\Deploy\$(TargetName)$(TargetExt)" /y</Comma
     <ClCompile Include="src\Afferll\Base\Application.cpp" />
     <ClCompile Include="src\Afferll\Base\Window.cpp" />
     <ClCompile Include="src\Afferll\Platform\Windows\WindowsWindow.cpp" />
+    <ClCompile Include="src\Afferll\Base\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Afferll\Base\Assert.h" />
-    <ClInclude Include="src\Afferll\Base\PlatformDetection.h" />
+    <ClInclude Include="src\Afferll\Base\Macros\Assert.h" />
+    <ClInclude Include="src\Afferll\Base\Macros\Debug.h" />
+    <ClInclude Include="src\Afferll\Base\Macros\DebugBreak.h" />
+    <ClInclude Include="src\Afferll\Base\Macros\Dll.h" />
+    <ClInclude Include="src\Afferll\Base\Macros\PlatformDetection.h" />
     <ClInclude Include="src\Afferll\Events\Event.h" />
     <ClInclude Include="src\Afferll\Events\Events.h" />
     <ClInclude Include="src\Afferll\Events\KeyboardEvents.h" />
+    <ClInclude Include="src\Afferll\Events\KeyCode.h" />
     <ClInclude Include="src\Afferll\Events\MouseEvents.h" />
     <ClInclude Include="src\Afferll\Events\WindowEvents.h" />
     <ClInclude Include="src\AfrlPch.cpp" />
     <ClInclude Include="src\AfrlPch.h" />
     <ClInclude Include="src\Afferll\Base\Logger.h" />
     <ClInclude Include="src\Afferll\Base\Application.h" />
-    <ClInclude Include="src\Afferll\Base\Base.h" />
+    <ClInclude Include="src\Afferll\Base\Macros\Base.h" />
     <ClInclude Include="src\Afferll.h" />
     <ClInclude Include="src\Afferll\Base\EntryPoint.h" />
     <ClInclude Include="src\Afferll\ToString.h" />
     <ClInclude Include="src\Afferll\Base\Window.h" />
     <ClInclude Include="src\Afferll\Platform\Windows\WindowsWindow.h" />
+    <ClInclude Include="src\Afferll\Base\Timer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

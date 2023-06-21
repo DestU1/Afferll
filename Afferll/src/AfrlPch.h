@@ -5,9 +5,10 @@
 #include <exception>
 #include <ctime>
 #include <mutex>
+#include <functional>
 
 
-#include "Afferll/Base/PlatformDetection.h"
+#include "Afferll/Base/Macros/PlatformDetection.h"
 
 #ifdef AFRL_PLATFORM_WINDOWS
 	#include <Windows.h>

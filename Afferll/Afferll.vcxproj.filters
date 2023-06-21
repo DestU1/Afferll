@@ -39,12 +39,15 @@
     <ClCompile Include="src\Afferll\Platform\Windows\WindowsWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Afferll\Base\Timer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Afferll\Base\Application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Afferll\Base\Base.h">
+    <ClInclude Include="src\Afferll\Base\Macros\Base.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Afferll.h">
@@ -83,13 +86,28 @@
     <ClInclude Include="src\Afferll\Base\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Afferll\Base\PlatformDetection.h">
+    <ClInclude Include="src\Afferll\Base\Macros\PlatformDetection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Afferll\Base\Assert.h">
+    <ClInclude Include="src\Afferll\Base\Macros\Assert.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Afferll\Platform\Windows\WindowsWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Afferll\Base\Macros\DebugBreak.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Afferll\Base\Macros\Debug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Afferll\Base\Macros\Dll.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Afferll\Events\KeyCode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Afferll\Base\Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

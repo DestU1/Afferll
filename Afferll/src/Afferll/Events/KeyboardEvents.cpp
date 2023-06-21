@@ -4,7 +4,7 @@
 
 namespace Afferll
 {
-    KeyPressEvent::KeyPressEvent(uint8_t keyCode)
+    KeyPressEvent::KeyPressEvent(KeyCode keyCode)
     	: Event(), m_KeyCode(keyCode)
     {
     }
@@ -12,13 +12,13 @@ namespace Afferll
     {
     }
     
-    uint8_t KeyPressEvent::GetKeyCode()
+    KeyCode KeyPressEvent::GetKeyCode()
     {
     	return m_KeyCode;
     }
     
     
-    KeyReleaseEvent::KeyReleaseEvent(uint8_t keyCode)
+    KeyReleaseEvent::KeyReleaseEvent(KeyCode keyCode)
     	: Event(), m_KeyCode(keyCode)
     {
     }
@@ -26,13 +26,13 @@ namespace Afferll
     {
     }
     
-    uint8_t KeyReleaseEvent::GetKeyCode()
+    KeyCode KeyReleaseEvent::GetKeyCode()
     {
     	return m_KeyCode;
     }
     
     
-    KeyRepeatEvent::KeyRepeatEvent(uint8_t keyCode)
+    KeyRepeatEvent::KeyRepeatEvent(KeyCode keyCode)
     	: Event(), m_KeyCode(keyCode)
     {
     }
@@ -40,22 +40,22 @@ namespace Afferll
     {
     }
 
-    uint8_t KeyRepeatEvent::GetKeyCode()
+    KeyCode KeyRepeatEvent::GetKeyCode()
     {
     	return m_KeyCode;
     }
 
 
-    KeyTypeEvent::KeyTypeEvent(uint8_t charCode)
-        : Event(), m_CharCode(charCode)
+    KeyTypeEvent::KeyTypeEvent(char _char)
+        : Event(), m_Char(_char)
     {
     }
     KeyTypeEvent::~KeyTypeEvent()
     {
     }
 
-    uint8_t KeyTypeEvent::GetCharCode()
+    char KeyTypeEvent::GetChar()
     {
-        return m_CharCode;
+        return m_Char;
     }
 }

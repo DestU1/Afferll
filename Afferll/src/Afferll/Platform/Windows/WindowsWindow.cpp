@@ -141,7 +141,7 @@ namespace Afferll
 		if (!window)
 			return DefWindowProc(hWnd, msg, wParam, lParam);
 
-		static int lastKey = -1;
+		static KeyCode lastKey = KeyCode::Invalid;
 		switch (msg)
 		{
 		case WM_LBUTTONDOWN:
@@ -218,28 +218,30 @@ namespace Afferll
 
 		case WM_KEYDOWN:
 		{
-			if (lastKey != wParam)
+			KeyCode key = GetKeyCodeByVk(wParam, lParam);
+			if (lastKey != key)
 			{
-				lastKey = (uint8_t)wParam;
-				KeyPressEvent e((uint8_t)wParam);
+				lastKey = key;
+				KeyPressEvent e(key);
 				window->DispachEvent(e);
 				break;
 			}
 
-			KeyRepeatEvent e((uint8_t)wParam);
+			KeyRepeatEvent e(key);
 			window->DispachEvent(e);
 			break;
 		}
 		case WM_KEYUP:
 		{
-			lastKey = -1;
-			KeyReleaseEvent e((uint8_t)wParam);
+			lastKey = KeyCode::Invalid;
+			KeyCode key = GetKeyCodeByVk(wParam, lParam);
+			KeyReleaseEvent e(key);
 			window->DispachEvent(e);
 			break;
 		}
 		case WM_CHAR:
 		{
-			KeyTypeEvent e((uint8_t)wParam);
+			KeyTypeEvent e((char)wParam);
 			window->DispachEvent(e);
 			break;
 		}
@@ -285,6 +287,221 @@ namespace Afferll
 		}
 
 		return DefWindowProc(hWnd, msg, wParam, lParam);
+	}
+
+	KeyCode WindowsWindowManager::GetKeyCodeByVk(WPARAM wParam, LPARAM lParam)
+	{
+		switch (wParam)
+		{
+		case '0':
+			return KeyCode::D0;
+		case '1':
+			return KeyCode::D1;
+		case '2':
+			return KeyCode::D2;
+		case '3':
+			return KeyCode::D3;
+		case '4':
+			return KeyCode::D4;
+		case '5':
+			return KeyCode::D5;
+		case '6':
+			return KeyCode::D6;
+		case '7':
+			return KeyCode::D7;
+		case '8':
+			return KeyCode::D8;
+		case '9':
+			return KeyCode::D9;
+
+		case 'A':
+			return KeyCode::A;
+		case 'B':
+			return KeyCode::B;
+		case 'C':
+			return KeyCode::C;
+		case 'D':
+			return KeyCode::D;
+		case 'E':
+			return KeyCode::E;
+		case 'F':
+			return KeyCode::F;
+		case 'G':
+			return KeyCode::G;
+		case 'H':
+			return KeyCode::H;
+		case 'I':
+			return KeyCode::I;
+		case 'J':
+			return KeyCode::J;
+		case 'K':
+			return KeyCode::K;
+		case 'L':
+			return KeyCode::L;
+		case 'M':
+			return KeyCode::M;
+		case 'N':
+			return KeyCode::N;
+		case 'O':
+			return KeyCode::O;
+		case 'P':
+			return KeyCode::P;
+		case 'Q':
+			return KeyCode::Q;
+		case 'R':
+			return KeyCode::R;
+		case 'S':
+			return KeyCode::S;
+		case 'T':
+			return KeyCode::T;
+		case 'U':
+			return KeyCode::U;
+		case 'V':
+			return KeyCode::V;
+		case 'W':
+			return KeyCode::W;
+		case 'X':
+			return KeyCode::X;
+		case 'Y':
+			return KeyCode::Y;
+		case 'Z':
+			return KeyCode::Z;
+
+		case VK_F1:
+			return KeyCode::F1;
+		case VK_F2:
+			return KeyCode::F2;
+		case VK_F3:
+			return KeyCode::F3;
+		case VK_F4:
+			return KeyCode::F4;
+		case VK_F5:
+			return KeyCode::F5;
+		case VK_F6:
+			return KeyCode::F6;
+		case VK_F7:
+			return KeyCode::F7;
+		case VK_F8:
+			return KeyCode::F8;
+		case VK_F9:
+			return KeyCode::F9;
+		case VK_F10:
+			return KeyCode::F10;
+		case VK_F11:
+			return KeyCode::F11;
+		case VK_F12:
+			return KeyCode::F12;
+
+		case VK_UP:
+			return KeyCode::UpArrow;
+		case VK_DOWN:
+			return KeyCode::DownArrow;
+		case VK_LEFT:
+			return KeyCode::LeftArrow;
+		case VK_RIGHT:
+			return KeyCode::RightArrow;
+
+		case VK_MULTIPLY:
+			return KeyCode::NumPadMultiply;
+		case VK_ADD:
+			return KeyCode::NumPadPlus;
+		// KeyCode::NumPadMinus
+		// KeyCode::NumPadPeriod
+		// KeyCode::NumPadDevide
+		// KeyCode::NumPadEnter
+		case VK_NUMLOCK:
+			return KeyCode::NumLock;
+		case VK_NUMPAD0:
+			return KeyCode::NumPad0;
+		case VK_NUMPAD1:
+			return KeyCode::NumPad0;
+		case VK_NUMPAD2:
+			return KeyCode::NumPad0;
+		case VK_NUMPAD3:
+			return KeyCode::NumPad0;
+		case VK_NUMPAD4:
+			return KeyCode::NumPad0;
+		case VK_NUMPAD5:
+			return KeyCode::NumPad0;
+		case VK_NUMPAD6:
+			return KeyCode::NumPad0;
+		case VK_NUMPAD7:
+			return KeyCode::NumPad0;
+		case VK_NUMPAD8:
+			return KeyCode::NumPad0;
+		case VK_NUMPAD9:
+			return KeyCode::NumPad0;
+
+		case VK_OEM_3:
+			return KeyCode::GraveAccent;
+		case VK_OEM_MINUS:
+			return KeyCode::Minus;
+		case VK_OEM_PLUS:
+			return KeyCode::Plus;
+		case VK_OEM_4:
+			return KeyCode::LeftBracket;
+		case VK_OEM_6:
+			return KeyCode::RightBracket;
+		case VK_OEM_5:
+			return KeyCode::BackSlash;
+		case VK_OEM_1:
+			return KeyCode::SemiColon;
+		case VK_OEM_7:
+			return KeyCode::Apostrophe;
+		case VK_OEM_COMMA:
+			return KeyCode::Comma;
+		case VK_OEM_PERIOD:
+			return KeyCode::Period;
+		case VK_OEM_2:
+			return KeyCode::Slash;
+
+		case VK_ESCAPE:
+			return KeyCode::Escape;
+		case VK_BACK:
+			return KeyCode::BackScape;
+		case VK_RETURN:
+			return KeyCode::Enter;
+		case VK_SHIFT:
+			return (lParam & (1 << 24)) ? KeyCode::RightShift : KeyCode::LeftShift;
+		case VK_CONTROL:
+			return (lParam & (1 << 24)) ? KeyCode::RightControl : KeyCode::LeftControl;
+		case VK_APPS:
+			return KeyCode::Applications;
+		case VK_RWIN:
+			return KeyCode::RightMenu;
+		case VK_LWIN:
+			return KeyCode::LeftMenu;
+		case VK_MENU:
+			return(lParam & (1 << 24)) ? KeyCode::RightAlt : KeyCode::LeftAlt;
+		case VK_SPACE:
+			return KeyCode::Space;
+		case VK_CAPITAL:
+			return KeyCode::CapsLock;
+		case VK_TAB:
+			return KeyCode::Tab;
+
+		case VK_SNAPSHOT:
+			return KeyCode::PrintScreen;
+		case VK_SCROLL:
+			return KeyCode::ScrollLock;
+		case VK_PAUSE:
+			return KeyCode::Pause;
+		case VK_INSERT:
+			return KeyCode::Insert;
+		case VK_HOME:
+			return KeyCode::Home;
+		case VK_PRIOR:
+			return KeyCode::PageUp;
+		case VK_DELETE:
+			return KeyCode::Delete;
+		case VK_END:
+			return KeyCode::End;
+		case VK_NEXT:
+			return KeyCode::PageDown;
+
+		default:
+			return KeyCode::Invalid;
+		}
 	}
 
 
@@ -345,7 +562,7 @@ namespace Afferll
 			NULL,
 			WindowsWindowManager::GetInstance()->GetWindowClassName().c_str(),
 			NULL,
-			WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
+			WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_VISIBLE | WS_SIZEBOX,
 			CW_USEDEFAULT,
 			CW_USEDEFAULT,
 			rect.right - rect.left,
@@ -362,7 +579,5 @@ namespace Afferll
 
 		ret = SetWindowTextA(m_WindowHandle, m_Properties.m_Title.c_str());
 		AFRL_ASSERT(ret, "SetWindowTextA() failed.");
-
-		ShowWindow(m_WindowHandle, SW_SHOW);
 	}
 }
