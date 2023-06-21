@@ -7,6 +7,7 @@
 
 #define AFRL_TO_STRING(x) #x
 #define BIT(x) (1 << (x))
+#define AFRL_MEMBER_CALLBACK(x) ([this](auto&&... args) { this->x(args...); })
 
 
 #include "AfrlPch.h"

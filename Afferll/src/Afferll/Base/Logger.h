@@ -131,7 +131,7 @@ namespace Afferll
 		std::string logLevelString = ToString(logLevel);
 		std::string formatedString = Format(msg, 0, args...);
 
-		// TODO: acquire lock just before printing to hold it for as little as possible
+
 		std::lock_guard<std::mutex> lock(s_LogLock);
 
 		char time[9];

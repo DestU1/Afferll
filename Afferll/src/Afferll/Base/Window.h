@@ -19,7 +19,7 @@ namespace Afferll
 	class AFRL_API Window
 	{
 	public:
-		typedef void(*EventCallback_t)(Event&);
+		using EventCallback_t = std::function<void(Event&)>;
 
 		virtual ~Window();
 

@@ -4,12 +4,6 @@
 
 namespace Afferll
 {
-	WindowsWindowManager::WindowDictionary::WindowDictionary(HWND windowHandle, Window* associatedWindow)
-		: m_WindowHandle(windowHandle), m_AssociatedWindow(associatedWindow)
-	{
-	}
-
-
 	WindowsWindowManager* WindowsWindowManager::s_Instance = new WindowsWindowManager();
 
 	WindowsWindowManager::WindowsWindowManager()
@@ -42,26 +36,6 @@ namespace Afferll
 		}
 	}
 
-	uint64_t WindowsWindowManager::GetWindowCount()
-	{
-		return m_WindowDictionary.size();
-	}
-	Window* WindowsWindowManager::GetWindow(HWND windowHandle)
-	{
-		for (WindowDictionary i : m_WindowDictionary)
-			if (i.m_WindowHandle == windowHandle)
-				return i.m_AssociatedWindow;
-
-		return nullptr;
-	}
-	HWND WindowsWindowManager::GetWindowHandle(Window* window)
-	{
-		for (WindowDictionary i : m_WindowDictionary)
-			if (i.m_AssociatedWindow == window)
-				return i.m_WindowHandle;
-
-		return NULL;
-	}
 	const std::string& WindowsWindowManager::GetWindowClassName()
 	{
 		return m_WindowClassName;
@@ -70,39 +44,22 @@ namespace Afferll
 	{
 		return m_InstanceHandle;
 	}
+	uint64_t WindowsWindowManager::GetWindowCount()
+	{
+		return m_WindowDictionary.size();
+	}
+	Window* WindowsWindowManager::GetWindow(HWND windowHandle)
+	{
+		return m_WindowDictionary[windowHandle];
+	}
 
 	void WindowsWindowManager::OnWindowCreate(HWND windowHandle, Window* window)
 	{
-		m_WindowDictionary.push_back(WindowDictionary(windowHandle, window));
+		m_WindowDictionary[windowHandle] = window;
 	}
 	void WindowsWindowManager::OnWindowClose(HWND windowHandle)
 	{
-		for (uint64_t i = 0; i < m_WindowDictionary.size(); ++i)
-		{
-			if (m_WindowDictionary[i].m_WindowHandle == windowHandle)
-			{
-				m_WindowDictionary.erase(m_WindowDictionary.begin() + i);
-				return;
-			}
-		}
-	}
-	void WindowsWindowManager::OnWindowClose(Window* window)
-	{
-		for (uint64_t i = 0; i < m_WindowDictionary.size(); ++i)
-		{
-			if (m_WindowDictionary[i].m_AssociatedWindow == window)
-			{
-				m_WindowDictionary.erase(m_WindowDictionary.begin() + i);
-				return;
-			}
-		}
-	}
-	void WindowsWindowManager::OnQuitMessage()
-	{
-		for (WindowDictionary i : m_WindowDictionary)
-			i.m_AssociatedWindow->Close();
-
-		Destroy();
+		m_WindowDictionary.erase(windowHandle);
 	}
 
 	bool WindowsWindowManager::RegisterWindowClass()
@@ -144,363 +101,361 @@ namespace Afferll
 		static KeyCode lastKey = KeyCode::Invalid;
 		switch (msg)
 		{
-		case WM_LBUTTONDOWN:
-		{
-			MousePressEvent e(MouseButton::Left);
-			window->DispachEvent(e);
-			break;
-		}
-		case WM_LBUTTONUP:
-		{
-			MouseReleaseEvent e(MouseButton::Left);
-			window->DispachEvent(e);
-			break;
-		}
-		case WM_RBUTTONDOWN:
-		{
-			MousePressEvent e(MouseButton::Right);
-			window->DispachEvent(e);
-			break;
-		}
-		case WM_RBUTTONUP:
-		{
-			MouseReleaseEvent e(MouseButton::Right);
-			window->DispachEvent(e);
-			break;
-		}
-		case WM_MBUTTONDOWN:
-		{
-			MousePressEvent e(MouseButton::Middle);
-			window->DispachEvent(e);
-			break;
-		}
-		case WM_MBUTTONUP:
-		{
-			MouseReleaseEvent e(MouseButton::Middle);
-			window->DispachEvent(e);
-			break;
-		}
-		case WM_XBUTTONDOWN:
-		{
-			// wParam's upper word holds the xbutton number (1 for x1, 2 for x2) add 2 to get 3 for x1 and 4 for x2
-			// ((wParam >> 48) | XBUTTON1) * 3 + ((wParam >> 48) | XBUTTON2) * 4
-			MousePressEvent e((MouseButton)((wParam >> 48) + 2));
-			window->DispachEvent(e);
-			break;
-		}
-		case WM_XBUTTONUP:
-		{
-			MouseReleaseEvent e((MouseButton)((wParam >> 48) + 2));
-			window->DispachEvent(e);
-			break;
-		}
-
-		case WM_MOUSEMOVE:
-		{
-			POINTS mousePoint = MAKEPOINTS(lParam);
-			MouseMoveEvent e(mousePoint.x, mousePoint.y);
-			window->DispachEvent(e);
-			break;
-		}
-
-		case WM_MOUSEWHEEL:
-		{
-			MouseScrollEvent e(0, GET_WHEEL_DELTA_WPARAM(wParam));
-			window->DispachEvent(e);
-			break;
-		}
-		case WM_MOUSEHWHEEL:
-		{
-			MouseScrollEvent e(GET_WHEEL_DELTA_WPARAM(wParam), 0);
-			window->DispachEvent(e);
-			break;
-		}
-
-		case WM_KEYDOWN:
-		{
-			KeyCode key = GetKeyCodeByVk(wParam, lParam);
-			if (lastKey != key)
+			case WM_LBUTTONDOWN:
 			{
-				lastKey = key;
-				KeyPressEvent e(key);
+				MousePressEvent e(MouseButton::Left);
+				window->DispachEvent(e);
+				break;
+			}
+			case WM_LBUTTONUP:
+			{
+				MouseReleaseEvent e(MouseButton::Left);
+				window->DispachEvent(e);
+				break;
+			}
+			case WM_RBUTTONDOWN:
+			{
+				MousePressEvent e(MouseButton::Right);
+				window->DispachEvent(e);
+				break;
+			}
+			case WM_RBUTTONUP:
+			{
+				MouseReleaseEvent e(MouseButton::Right);
+				window->DispachEvent(e);
+				break;
+			}
+			case WM_MBUTTONDOWN:
+			{
+				MousePressEvent e(MouseButton::Middle);
+				window->DispachEvent(e);
+				break;
+			}
+			case WM_MBUTTONUP:
+			{
+				MouseReleaseEvent e(MouseButton::Middle);
+				window->DispachEvent(e);
+				break;
+			}
+			case WM_XBUTTONDOWN:
+			{
+				// wParam's upper word holds the xbutton number (1 for x1, 2 for x2) add 2 to get 3 for x1 and 4 for x2
+				// ((wParam >> 48) | XBUTTON1) * 3 + ((wParam >> 48) | XBUTTON2) * 4
+				MousePressEvent e((MouseButton)((wParam >> 48) + 2));
+				window->DispachEvent(e);
+				break;
+			}
+			case WM_XBUTTONUP:
+			{
+				MouseReleaseEvent e((MouseButton)((wParam >> 48) + 2));
 				window->DispachEvent(e);
 				break;
 			}
 
-			KeyRepeatEvent e(key);
-			window->DispachEvent(e);
-			break;
-		}
-		case WM_KEYUP:
-		{
-			lastKey = KeyCode::Invalid;
-			KeyCode key = GetKeyCodeByVk(wParam, lParam);
-			KeyReleaseEvent e(key);
-			window->DispachEvent(e);
-			break;
-		}
-		case WM_CHAR:
-		{
-			KeyTypeEvent e((char)wParam);
-			window->DispachEvent(e);
-			break;
-		}
+			case WM_MOUSEMOVE:
+			{
+				POINTS mousePoint = MAKEPOINTS(lParam);
+				MouseMoveEvent e(mousePoint.x, mousePoint.y);
+				window->DispachEvent(e);
+				break;
+			}
+
+			case WM_MOUSEWHEEL:
+			{
+				MouseScrollEvent e(0, GET_WHEEL_DELTA_WPARAM(wParam));
+				window->DispachEvent(e);
+				break;
+			}
+			case WM_MOUSEHWHEEL:
+			{
+				MouseScrollEvent e(GET_WHEEL_DELTA_WPARAM(wParam), 0);
+				window->DispachEvent(e);
+				break;
+			}
+
+			case WM_KEYDOWN:
+			{
+				KeyCode key = TranslateKeyCode(wParam, lParam);
+				if (lastKey != key)
+				{
+					lastKey = key;
+					KeyPressEvent e(key);
+					window->DispachEvent(e);
+					break;
+				}
+
+				KeyRepeatEvent e(key);
+				window->DispachEvent(e);
+				break;
+			}
+			case WM_KEYUP:
+			{
+				lastKey = KeyCode::Invalid;
+				KeyCode key = TranslateKeyCode(wParam, lParam);
+				KeyReleaseEvent e(key);
+				window->DispachEvent(e);
+				break;
+			}
+			case WM_CHAR:
+			{
+				KeyTypeEvent e((char)wParam);
+				window->DispachEvent(e);
+				break;
+			}
 
 
-		case WM_SETFOCUS:
-		{
-			WindowFocusEvent e;
-			window->DispachEvent(e);
-			break;
-		}
-		case WM_KILLFOCUS:
-		{
-			WindowFocusLossEvent e;
-			window->DispachEvent(e);
-			break;
-		}
-		case WM_SIZE:
-		{
-			WindowResizeEvent e(LOWORD(lParam), HIWORD(lParam));
-			window->DispachEvent(e);
-			break;
-		}
-		case WM_MOVE:
-		{
-			WindowMoveEvent e((int64_t)(short)LOWORD(lParam), (int64_t)(short)HIWORD(lParam));
-			window->DispachEvent(e);
-			break;
-		}
-		case WM_CLOSE:
-		{
-			WindowCloseEvent e;
-			window->DispachEvent(e);
-			window->Close();
-			break;
-		}
-
-		case WM_QUIT:
-		{
-			s_Instance->OnQuitMessage();
-			break;
-		}
+			case WM_SETFOCUS:
+			{
+				WindowFocusEvent e;
+				window->DispachEvent(e);
+				break;
+			}
+			case WM_KILLFOCUS:
+			{
+				WindowFocusLossEvent e;
+				window->DispachEvent(e);
+				break;
+			}
+			case WM_SIZE:
+			{
+				WindowResizeEvent e(LOWORD(lParam), HIWORD(lParam));
+				window->DispachEvent(e);
+				break;
+			}
+			case WM_MOVE:
+			{
+				WindowMoveEvent e((int64_t)(short)LOWORD(lParam), (int64_t)(short)HIWORD(lParam));
+				window->DispachEvent(e);
+				break;
+			}
+			case WM_CLOSE:
+			{
+				WindowCloseEvent e;
+				window->DispachEvent(e);
+				break;
+			}
 		}
 
 		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}
 
-	KeyCode WindowsWindowManager::GetKeyCodeByVk(WPARAM wParam, LPARAM lParam)
+	KeyCode WindowsWindowManager::TranslateKeyCode(WPARAM wParam, LPARAM lParam)
 	{
 		switch (wParam)
 		{
-		case '0':
-			return KeyCode::D0;
-		case '1':
-			return KeyCode::D1;
-		case '2':
-			return KeyCode::D2;
-		case '3':
-			return KeyCode::D3;
-		case '4':
-			return KeyCode::D4;
-		case '5':
-			return KeyCode::D5;
-		case '6':
-			return KeyCode::D6;
-		case '7':
-			return KeyCode::D7;
-		case '8':
-			return KeyCode::D8;
-		case '9':
-			return KeyCode::D9;
+			case '0':
+				return KeyCode::D0;
+			case '1':
+				return KeyCode::D1;
+			case '2':
+				return KeyCode::D2;
+			case '3':
+				return KeyCode::D3;
+			case '4':
+				return KeyCode::D4;
+			case '5':
+				return KeyCode::D5;
+			case '6':
+				return KeyCode::D6;
+			case '7':
+				return KeyCode::D7;
+			case '8':
+				return KeyCode::D8;
+			case '9':
+				return KeyCode::D9;
 
-		case 'A':
-			return KeyCode::A;
-		case 'B':
-			return KeyCode::B;
-		case 'C':
-			return KeyCode::C;
-		case 'D':
-			return KeyCode::D;
-		case 'E':
-			return KeyCode::E;
-		case 'F':
-			return KeyCode::F;
-		case 'G':
-			return KeyCode::G;
-		case 'H':
-			return KeyCode::H;
-		case 'I':
-			return KeyCode::I;
-		case 'J':
-			return KeyCode::J;
-		case 'K':
-			return KeyCode::K;
-		case 'L':
-			return KeyCode::L;
-		case 'M':
-			return KeyCode::M;
-		case 'N':
-			return KeyCode::N;
-		case 'O':
-			return KeyCode::O;
-		case 'P':
-			return KeyCode::P;
-		case 'Q':
-			return KeyCode::Q;
-		case 'R':
-			return KeyCode::R;
-		case 'S':
-			return KeyCode::S;
-		case 'T':
-			return KeyCode::T;
-		case 'U':
-			return KeyCode::U;
-		case 'V':
-			return KeyCode::V;
-		case 'W':
-			return KeyCode::W;
-		case 'X':
-			return KeyCode::X;
-		case 'Y':
-			return KeyCode::Y;
-		case 'Z':
-			return KeyCode::Z;
+			case 'A':
+				return KeyCode::A;
+			case 'B':
+				return KeyCode::B;
+			case 'C':
+				return KeyCode::C;
+			case 'D':
+				return KeyCode::D;
+			case 'E':
+				return KeyCode::E;
+			case 'F':
+				return KeyCode::F;
+			case 'G':
+				return KeyCode::G;
+			case 'H':
+				return KeyCode::H;
+			case 'I':
+				return KeyCode::I;
+			case 'J':
+				return KeyCode::J;
+			case 'K':
+				return KeyCode::K;
+			case 'L':
+				return KeyCode::L;
+			case 'M':
+				return KeyCode::M;
+			case 'N':
+				return KeyCode::N;
+			case 'O':
+				return KeyCode::O;
+			case 'P':
+				return KeyCode::P;
+			case 'Q':
+				return KeyCode::Q;
+			case 'R':
+				return KeyCode::R;
+			case 'S':
+				return KeyCode::S;
+			case 'T':
+				return KeyCode::T;
+			case 'U':
+				return KeyCode::U;
+			case 'V':
+				return KeyCode::V;
+			case 'W':
+				return KeyCode::W;
+			case 'X':
+				return KeyCode::X;
+			case 'Y':
+				return KeyCode::Y;
+			case 'Z':
+				return KeyCode::Z;
 
-		case VK_F1:
-			return KeyCode::F1;
-		case VK_F2:
-			return KeyCode::F2;
-		case VK_F3:
-			return KeyCode::F3;
-		case VK_F4:
-			return KeyCode::F4;
-		case VK_F5:
-			return KeyCode::F5;
-		case VK_F6:
-			return KeyCode::F6;
-		case VK_F7:
-			return KeyCode::F7;
-		case VK_F8:
-			return KeyCode::F8;
-		case VK_F9:
-			return KeyCode::F9;
-		case VK_F10:
-			return KeyCode::F10;
-		case VK_F11:
-			return KeyCode::F11;
-		case VK_F12:
-			return KeyCode::F12;
+			case VK_F1:
+				return KeyCode::F1;
+			case VK_F2:
+				return KeyCode::F2;
+			case VK_F3:
+				return KeyCode::F3;
+			case VK_F4:
+				return KeyCode::F4;
+			case VK_F5:
+				return KeyCode::F5;
+			case VK_F6:
+				return KeyCode::F6;
+			case VK_F7:
+				return KeyCode::F7;
+			case VK_F8:
+				return KeyCode::F8;
+			case VK_F9:
+				return KeyCode::F9;
+			case VK_F10:
+				return KeyCode::F10;
+			case VK_F11:
+				return KeyCode::F11;
+			case VK_F12:
+				return KeyCode::F12;
 
-		case VK_UP:
-			return KeyCode::UpArrow;
-		case VK_DOWN:
-			return KeyCode::DownArrow;
-		case VK_LEFT:
-			return KeyCode::LeftArrow;
-		case VK_RIGHT:
-			return KeyCode::RightArrow;
+			case VK_UP:
+				return KeyCode::UpArrow;
+			case VK_DOWN:
+				return KeyCode::DownArrow;
+			case VK_LEFT:
+				return KeyCode::LeftArrow;
+			case VK_RIGHT:
+				return KeyCode::RightArrow;
 
-		case VK_MULTIPLY:
-			return KeyCode::NumPadMultiply;
-		case VK_ADD:
-			return KeyCode::NumPadPlus;
-		// KeyCode::NumPadMinus
-		// KeyCode::NumPadPeriod
-		// KeyCode::NumPadDevide
-		// KeyCode::NumPadEnter
-		case VK_NUMLOCK:
-			return KeyCode::NumLock;
-		case VK_NUMPAD0:
-			return KeyCode::NumPad0;
-		case VK_NUMPAD1:
-			return KeyCode::NumPad0;
-		case VK_NUMPAD2:
-			return KeyCode::NumPad0;
-		case VK_NUMPAD3:
-			return KeyCode::NumPad0;
-		case VK_NUMPAD4:
-			return KeyCode::NumPad0;
-		case VK_NUMPAD5:
-			return KeyCode::NumPad0;
-		case VK_NUMPAD6:
-			return KeyCode::NumPad0;
-		case VK_NUMPAD7:
-			return KeyCode::NumPad0;
-		case VK_NUMPAD8:
-			return KeyCode::NumPad0;
-		case VK_NUMPAD9:
-			return KeyCode::NumPad0;
+			case VK_MULTIPLY:
+				return KeyCode::NumPadMultiply;
+			case VK_ADD:
+				return KeyCode::NumPadPlus;
+			case VK_SUBTRACT:
+				return KeyCode::NumPadMinus;
+			case VK_DECIMAL:
+				return KeyCode::NumPadPeriod;
+			case VK_DIVIDE:
+				return KeyCode::NumPadDivide;
+			case VK_NUMLOCK:
+				return KeyCode::NumLock;
+			case VK_NUMPAD0:
+				return KeyCode::NumPad0;
+			case VK_NUMPAD1:
+				return KeyCode::NumPad1;
+			case VK_NUMPAD2:
+				return KeyCode::NumPad2;
+			case VK_NUMPAD3:
+				return KeyCode::NumPad3;
+			case VK_NUMPAD4:
+				return KeyCode::NumPad4;
+			case VK_NUMPAD5:
+				return KeyCode::NumPad5;
+			case VK_NUMPAD6:
+				return KeyCode::NumPad6;
+			case VK_NUMPAD7:
+				return KeyCode::NumPad7;
+			case VK_NUMPAD8:
+				return KeyCode::NumPad8;
+			case VK_NUMPAD9:
+				return KeyCode::NumPad9;
 
-		case VK_OEM_3:
-			return KeyCode::GraveAccent;
-		case VK_OEM_MINUS:
-			return KeyCode::Minus;
-		case VK_OEM_PLUS:
-			return KeyCode::Plus;
-		case VK_OEM_4:
-			return KeyCode::LeftBracket;
-		case VK_OEM_6:
-			return KeyCode::RightBracket;
-		case VK_OEM_5:
-			return KeyCode::BackSlash;
-		case VK_OEM_1:
-			return KeyCode::SemiColon;
-		case VK_OEM_7:
-			return KeyCode::Apostrophe;
-		case VK_OEM_COMMA:
-			return KeyCode::Comma;
-		case VK_OEM_PERIOD:
-			return KeyCode::Period;
-		case VK_OEM_2:
-			return KeyCode::Slash;
+			case VK_OEM_3:
+				return KeyCode::GraveAccent;
+			case VK_OEM_MINUS:
+				return KeyCode::Minus;
+			case VK_OEM_PLUS:
+				return KeyCode::Plus;
+			case VK_OEM_4:
+				return KeyCode::LeftBracket;
+			case VK_OEM_6:
+				return KeyCode::RightBracket;
+			case VK_OEM_5:
+				return KeyCode::BackSlash;
+			case VK_OEM_1:
+				return KeyCode::SemiColon;
+			case VK_OEM_7:
+				return KeyCode::Apostrophe;
+			case VK_OEM_COMMA:
+				return KeyCode::Comma;
+			case VK_OEM_PERIOD:
+				return KeyCode::Period;
+			case VK_OEM_2:
+				return KeyCode::Slash;
 
-		case VK_ESCAPE:
-			return KeyCode::Escape;
-		case VK_BACK:
-			return KeyCode::BackScape;
-		case VK_RETURN:
-			return KeyCode::Enter;
-		case VK_SHIFT:
-			return (lParam & (1 << 24)) ? KeyCode::RightShift : KeyCode::LeftShift;
-		case VK_CONTROL:
-			return (lParam & (1 << 24)) ? KeyCode::RightControl : KeyCode::LeftControl;
-		case VK_APPS:
-			return KeyCode::Applications;
-		case VK_RWIN:
-			return KeyCode::RightMenu;
-		case VK_LWIN:
-			return KeyCode::LeftMenu;
-		case VK_MENU:
-			return(lParam & (1 << 24)) ? KeyCode::RightAlt : KeyCode::LeftAlt;
-		case VK_SPACE:
-			return KeyCode::Space;
-		case VK_CAPITAL:
-			return KeyCode::CapsLock;
-		case VK_TAB:
-			return KeyCode::Tab;
+			case VK_ESCAPE:
+				return KeyCode::Escape;
+			case VK_BACK:
+				return KeyCode::BackScape;
+			case VK_RETURN:
+				return (lParam & (1 << 24)) ? KeyCode::NumPadEnter : KeyCode::Enter;
+			case VK_SHIFT:
+			{
+				UINT keyCode = MapVirtualKeyA((lParam & 0x00ff0000) >> 16, MAPVK_VSC_TO_VK_EX);
+				return (keyCode == VK_RSHIFT) ? KeyCode::RightShift : KeyCode::LeftShift;
+			}
+			case VK_CONTROL:
+				return (lParam & (1 << 24)) ? KeyCode::RightControl : KeyCode::LeftControl;
+			case VK_APPS:
+				return KeyCode::Applications;
+			case VK_RWIN:
+				return KeyCode::RightMenu;
+			case VK_LWIN:
+				return KeyCode::LeftMenu;
+			case VK_MENU:
+				return (lParam & (1 << 24)) ? KeyCode::RightAlt : KeyCode::LeftAlt;
+			case VK_SPACE:
+				return KeyCode::Space;
+			case VK_CAPITAL:
+				return KeyCode::CapsLock;
+			case VK_TAB:
+				return KeyCode::Tab;
 
-		case VK_SNAPSHOT:
-			return KeyCode::PrintScreen;
-		case VK_SCROLL:
-			return KeyCode::ScrollLock;
-		case VK_PAUSE:
-			return KeyCode::Pause;
-		case VK_INSERT:
-			return KeyCode::Insert;
-		case VK_HOME:
-			return KeyCode::Home;
-		case VK_PRIOR:
-			return KeyCode::PageUp;
-		case VK_DELETE:
-			return KeyCode::Delete;
-		case VK_END:
-			return KeyCode::End;
-		case VK_NEXT:
-			return KeyCode::PageDown;
+			case VK_SNAPSHOT:
+				return KeyCode::PrintScreen;
+			case VK_SCROLL:
+				return KeyCode::ScrollLock;
+			case VK_PAUSE:
+				return KeyCode::Pause;
+			case VK_INSERT:
+				return KeyCode::Insert;
+			case VK_HOME:
+				return KeyCode::Home;
+			case VK_PRIOR:
+				return KeyCode::PageUp;
+			case VK_DELETE:
+				return KeyCode::Delete;
+			case VK_END:
+				return KeyCode::End;
+			case VK_NEXT:
+				return KeyCode::PageDown;
 
-		default:
-			return KeyCode::Invalid;
+			default:
+				return KeyCode::Invalid;
 		}
 	}
 

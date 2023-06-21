@@ -5,19 +5,8 @@
 
 namespace Afferll
 {
-	// TODO: use unorderd maps
 	class WindowsWindowManager
 	{
-	private:
-		class WindowDictionary
-		{
-		public:
-			WindowDictionary(HWND windowHandle, Window* associatedWindow);
-
-			HWND m_WindowHandle;
-			Window* m_AssociatedWindow;
-		};
-
 	public:
 		WindowsWindowManager();
 		~WindowsWindowManager();
@@ -25,31 +14,28 @@ namespace Afferll
 		static WindowsWindowManager* GetInstance();
 		void Destroy();
 
-		uint64_t GetWindowCount();
-		Window* GetWindow(HWND windowHandle);
-		HWND GetWindowHandle(Window* window);
 		const std::string& GetWindowClassName();
 		HINSTANCE GetInstanceHandle();
+		uint64_t GetWindowCount();
+		Window* GetWindow(HWND windowHandle);
 
 		void ProcessMessages();
 		void OnWindowCreate(HWND windowHandle, Window* window);
 		void OnWindowClose(HWND windowHandle);
-		void OnWindowClose(Window* window);
-		void OnQuitMessage();
 
 		bool RegisterWindowClass();
 		bool UnRegisterWindowClass();
 		static LRESULT WINAPI WindowProcDispacher(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	private:
-		static KeyCode GetKeyCodeByVk(WPARAM wParam, LPARAM lParam);
+		static KeyCode TranslateKeyCode(WPARAM wParam, LPARAM lParam);
 
 
 		static WindowsWindowManager* s_Instance;
 		HINSTANCE m_InstanceHandle;
 		std::string m_WindowClassName;
 		bool m_WindowClassRegistered;
-		std::vector<WindowDictionary> m_WindowDictionary;
+		std::unordered_map<HWND, Window*> m_WindowDictionary;
 	};
 
 	class WindowsWindow : public Window

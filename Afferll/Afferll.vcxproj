@@ -100,6 +100,8 @@ copy "$(TargetPath)" "$(TargetDir)..\Deploy\$(TargetName)$(TargetExt)" /y</Comma
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Afferll\Base\LayerStack.cpp" />
+    <ClCompile Include="src\Afferll\Base\Layer.cpp" />
     <ClCompile Include="src\Afferll\Events\Event.cpp" />
     <ClCompile Include="src\Afferll\Events\KeyboardEvents.cpp" />
     <ClCompile Include="src\Afferll\Events\MouseEvents.cpp" />
@@ -111,6 +113,8 @@ copy "$(TargetPath)" "$(TargetDir)..\Deploy\$(TargetName)$(TargetExt)" /y</Comma
     <ClCompile Include="src\Afferll\Base\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Afferll\Base\LayerStack.h" />
+    <ClInclude Include="src\Afferll\Base\Layer.h" />
     <ClInclude Include="src\Afferll\Base\Macros\Assert.h" />
     <ClInclude Include="src\Afferll\Base\Macros\Debug.h" />
     <ClInclude Include="src\Afferll\Base\Macros\DebugBreak.h" />
