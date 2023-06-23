@@ -241,6 +241,7 @@ namespace Afferll
 
 	KeyCode WindowsWindowManager::TranslateKeyCode(WPARAM wParam, LPARAM lParam)
 	{
+		bool ex = lParam & (1 << 24);
 		switch (wParam)
 		{
 			case '0':
@@ -343,13 +344,13 @@ namespace Afferll
 				return KeyCode::F12;
 
 			case VK_UP:
-				return KeyCode::UpArrow;
+				return ex ? KeyCode::UpArrow : KeyCode::NumPad8;
 			case VK_DOWN:
-				return KeyCode::DownArrow;
+				return ex ? KeyCode::DownArrow : KeyCode::NumPad2;
 			case VK_LEFT:
-				return KeyCode::LeftArrow;
+				return ex ? KeyCode::LeftArrow : KeyCode::NumPad4;
 			case VK_RIGHT:
-				return KeyCode::RightArrow;
+				return ex ? KeyCode::RightArrow : KeyCode::NumPad6;
 
 			case VK_MULTIPLY:
 				return KeyCode::NumPadMultiply;
@@ -412,14 +413,14 @@ namespace Afferll
 			case VK_BACK:
 				return KeyCode::BackScape;
 			case VK_RETURN:
-				return (lParam & (1 << 24)) ? KeyCode::NumPadEnter : KeyCode::Enter;
+				return ex ? KeyCode::NumPadEnter : KeyCode::Enter;
 			case VK_SHIFT:
 			{
 				UINT keyCode = MapVirtualKeyA((lParam & 0x00ff0000) >> 16, MAPVK_VSC_TO_VK_EX);
 				return (keyCode == VK_RSHIFT) ? KeyCode::RightShift : KeyCode::LeftShift;
 			}
 			case VK_CONTROL:
-				return (lParam & (1 << 24)) ? KeyCode::RightControl : KeyCode::LeftControl;
+				return ex ? KeyCode::RightControl : KeyCode::LeftControl;
 			case VK_APPS:
 				return KeyCode::Applications;
 			case VK_RWIN:
@@ -427,7 +428,7 @@ namespace Afferll
 			case VK_LWIN:
 				return KeyCode::LeftMenu;
 			case VK_MENU:
-				return (lParam & (1 << 24)) ? KeyCode::RightAlt : KeyCode::LeftAlt;
+				return ex ? KeyCode::RightAlt : KeyCode::LeftAlt;
 			case VK_SPACE:
 				return KeyCode::Space;
 			case VK_CAPITAL:
@@ -442,17 +443,20 @@ namespace Afferll
 			case VK_PAUSE:
 				return KeyCode::Pause;
 			case VK_INSERT:
-				return KeyCode::Insert;
+				return ex ? KeyCode::Insert : KeyCode::NumPad0;
 			case VK_HOME:
-				return KeyCode::Home;
+				return ex ? KeyCode::Home : KeyCode::NumPad7;
 			case VK_PRIOR:
-				return KeyCode::PageUp;
+				return ex ? KeyCode::PageUp : KeyCode::NumPad9;
 			case VK_DELETE:
-				return KeyCode::Delete;
+				return ex ? KeyCode::Delete : KeyCode::NumPadPeriod;
 			case VK_END:
-				return KeyCode::End;
+				return ex ? KeyCode::End : KeyCode::NumPad1;
 			case VK_NEXT:
-				return KeyCode::PageDown;
+				return ex ? KeyCode::PageDown : KeyCode::NumPad3;
+
+			case VK_CLEAR:
+				return KeyCode::NumPad5;
 
 			default:
 				return KeyCode::Invalid;
