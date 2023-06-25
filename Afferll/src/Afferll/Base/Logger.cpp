@@ -93,4 +93,27 @@ namespace Afferll
 
 		return fmt;
 	}
+
+
+	std::string AFRL_API ToString(Logger::LogLevel _Val)
+	{
+		switch (_Val)
+		{
+		case Logger::LogLevel::Debug:
+			return std::string("Debug");
+		case Logger::LogLevel::Info:
+			return std::string("Info");
+		case Logger::LogLevel::Success:
+			return std::string("Success");
+		case Logger::LogLevel::Warning:
+			return std::string("Warning");
+		case Logger::LogLevel::Error:
+			return std::string("Error");
+		case Logger::LogLevel::Fatal:
+			return std::string("Fatal");
+
+		default:
+			return std::string("Unknown log level");
+		}
+	}
 }

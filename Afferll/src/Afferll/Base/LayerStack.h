@@ -1,10 +1,11 @@
 #pragma once
 #include "Afferll/Base/Macros/Base.h"
-#include "Afferll/Base/Layer.h"
 
 
 namespace Afferll
 {
+	class Layer;
+
 	class LayerStack
 	{
 	public:

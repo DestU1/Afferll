@@ -1,6 +1,7 @@
 #pragma once
 #include "Afferll/Base/Macros/Base.h"
 #include "Afferll/Base/Window.h"
+#include "Afferll/Events/KeyCode.h"
 
 
 namespace Afferll
@@ -31,11 +32,12 @@ namespace Afferll
 		static KeyCode TranslateKeyCode(WPARAM wParam, LPARAM lParam);
 
 
-		static WindowsWindowManager* s_Instance;
 		HINSTANCE m_InstanceHandle;
 		std::string m_WindowClassName;
 		bool m_WindowClassRegistered;
 		std::unordered_map<HWND, Window*> m_WindowDictionary;
+
+		static WindowsWindowManager* s_Instance;
 	};
 
 	class WindowsWindow : public Window

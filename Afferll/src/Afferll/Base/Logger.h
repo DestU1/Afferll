@@ -64,30 +64,6 @@ namespace Afferll
 	};
 
 
-	template<>
-	inline AFRL_API std::string ToString<Logger::LogLevel>(Logger::LogLevel _Val)
-	{
-		switch (_Val)
-		{
-		case Logger::LogLevel::Debug:
-			return std::string("Debug");
-		case Logger::LogLevel::Info:
-			return std::string("Info");
-		case Logger::LogLevel::Success:
-			return std::string("Success");
-		case Logger::LogLevel::Warning:
-			return std::string("Warning");
-		case Logger::LogLevel::Error:
-			return std::string("Error");
-		case Logger::LogLevel::Fatal:
-			return std::string("Fatal");
-
-		default:
-			return std::string("Unknown log level");
-		}
-	}
-
-
 	template<typename ...Args>
 	inline void Logger::Massage(const char* msg, Args ...args) const
 	{
@@ -124,6 +100,7 @@ namespace Afferll
 		Log(LogLevel::Fatal, msg, args...);
 	}
 
+	std::string AFRL_API ToString(Logger::LogLevel _Val);
 	template<typename ...Args>
 	inline void Logger::Log(LogLevel logLevel, std::string msg, Args ...args) const
 	{

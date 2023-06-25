@@ -1,5 +1,8 @@
 #include "AfrlPch.h"
 #include "Afferll/Platform/Windows/WindowsWindow.h"
+#include "Afferll/Events/Events.h"
+
+#pragma comment(lib, "Opengl32.lib")
 
 
 namespace Afferll
@@ -538,5 +541,31 @@ namespace Afferll
 
 		ret = SetWindowTextA(m_WindowHandle, m_Properties.m_Title.c_str());
 		AFRL_ASSERT(ret, "SetWindowTextA() failed.");
+
+		////////////////////////////////////////////////////////////
+		PIXELFORMATDESCRIPTOR pfd =
+		{
+			sizeof(PIXELFORMATDESCRIPTOR),
+			1,
+			PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER,    // Flags
+			PFD_TYPE_RGBA,        // The kind of framebuffer. RGBA or palette.
+			32,                   // Colordepth of the framebuffer.
+			0, 0, 0, 0, 0, 0,
+			0,
+			0,
+			0,
+			0, 0, 0, 0,
+			24,                   // Number of bits for the depthbuffer
+			8,                    // Number of bits for the stencilbuffer
+			0,                    // Number of Aux buffers in the framebuffer.
+			PFD_MAIN_PLANE,
+			0,
+			0, 0, 0
+		};
+		HDC hDc = GetDC(m_WindowHandle);
+		int pf = ChoosePixelFormat(hDc, &pfd);
+		SetPixelFormat(hDc, pf, &pfd);
+		HGLRC context = wglCreateContext(hDc);
+		wglMakeCurrent(hDc, context);
 	}
 }

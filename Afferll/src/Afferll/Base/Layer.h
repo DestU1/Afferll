@@ -1,10 +1,11 @@
 #pragma once
 #include "Afferll/Base/Macros/Base.h"
-#include "Afferll/Events/Events.h"
 
 
 namespace Afferll
 {
+	class Event;
+
 	class Layer
 	{
 	public:

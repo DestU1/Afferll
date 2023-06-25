@@ -82,40 +82,5 @@ namespace Afferll
 	}
 
 
-	template<>
-	inline AFRL_API std::string ToString(EventType _Val)
-	{
-		switch (_Val)
-		{
-			case EventType::WindowMove:
-				return std::string("Window Move");
-			case EventType::WindowFocus:
-				return std::string("Window Focus");
-			case EventType::WindowFocusLoss:
-				return std::string("Window Focus Loss");
-			case EventType::WindowResize:
-				return std::string("Window Resize");
-			case EventType::WindowClose:
-				return std::string("Window Close");
-			case EventType::KeyPress:
-				return std::string("Key Press");
-			case EventType::KeyRelease:
-				return std::string("Key Release");
-			case EventType::KeyRepeat:
-				return std::string("Key Repeat");
-			case EventType::KeyType:
-				return std::string("Key Type");
-			case EventType::MousePress:
-				return std::string("Mouse Press");
-			case EventType::MouseRelease:
-				return std::string("Mouse Release");
-			case EventType::MouseScroll:
-				return std::string("Mouse Scroll");
-			case EventType::MouseMove:
-				return std::string("Mouse Move");
-
-			default:
-				return std::string("Unknown Event Type");
-		}
-	}
+	std::string AFRL_API ToString(EventType _Val);
 }

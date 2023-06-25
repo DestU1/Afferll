@@ -1,6 +1,6 @@
 #pragma once
 #include "Afferll/Events/Event.h"
-#include "KeyCode.h"
+#include "Afferll/Events/KeyCode.h"
 
 
 namespace Afferll
