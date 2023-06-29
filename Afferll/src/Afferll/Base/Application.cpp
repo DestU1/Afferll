@@ -2,6 +2,7 @@
 #include "Afferll/Base/Application.h"
 #include "Afferll/Base/Window.h"
 #include "Afferll/ImGui/ImGuiLayer.h"
+#include "Afferll/Base/Input.h"
 
 
 namespace Afferll
@@ -16,7 +17,7 @@ namespace Afferll
 		m_Window = Window::Create();
 		m_Window->SetEventCallback(AFRL_MEMBER_CALLBACK(OnEvent));
 
-		PushOverlay(new ImGuiLayer());
+		// PushOverlay(new ImGuiLayer());
 	}
 	Application::~Application()
 	{
@@ -41,13 +42,20 @@ namespace Afferll
 
 			for (uint64_t i = 0; i < m_LayerStack.GetCount(); ++i)
 				m_LayerStack.GetLayer(i)->OnUpdate();
+
+			if (Input::GetKey(KeyCode::A))
+				AFRL_LOG(Info, "A Pressed (Pull)");
 		}
 	}
 
 	void Application::OnEvent(Event& e)
 	{
+		Input::OnEvent(e);
+
+
 		EventDispacher dispacher(e);
 		dispacher.Dispach<WindowCloseEvent>(AFRL_MEMBER_CALLBACK(OnWindowClose));
+		dispacher.Dispach<KeyPressEvent>([](KeyPressEvent& e) { if (e.GetKeyCode() == KeyCode::A) AFRL_LOG(Info, "A Pressed (Event)"); });
 
 		if (e.IsHandled())
 			return;

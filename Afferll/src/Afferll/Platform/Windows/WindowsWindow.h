@@ -21,7 +21,7 @@ namespace Afferll
 		Window* GetWindow(HWND windowHandle);
 
 		void ProcessMessages();
-		void OnWindowCreate(HWND windowHandle, Window* window);
+		void OnWindowCreate(HWND windowHandle, const Window* window);
 		void OnWindowClose(HWND windowHandle);
 
 		bool RegisterWindowClass();

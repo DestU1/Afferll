@@ -38,37 +38,23 @@ namespace Afferll
 
     std::string AFRL_API ToString(EventType _Val)
 	{
-		switch (_Val)
-		{
-			case EventType::WindowMove:
-				return std::string("Window Move");
-			case EventType::WindowFocus:
-				return std::string("Window Focus");
-			case EventType::WindowFocusLoss:
-				return std::string("Window Focus Loss");
-			case EventType::WindowResize:
-				return std::string("Window Resize");
-			case EventType::WindowClose:
-				return std::string("Window Close");
-			case EventType::KeyPress:
-				return std::string("Key Press");
-			case EventType::KeyRelease:
-				return std::string("Key Release");
-			case EventType::KeyRepeat:
-				return std::string("Key Repeat");
-			case EventType::KeyType:
-				return std::string("Key Type");
-			case EventType::MousePress:
-				return std::string("Mouse Press");
-			case EventType::MouseRelease:
-				return std::string("Mouse Release");
-			case EventType::MouseScroll:
-				return std::string("Mouse Scroll");
-			case EventType::MouseMove:
-				return std::string("Mouse Move");
+		static const std::unordered_map<EventType, std::string> eventMap({
+			{ EventType::Invalid,         std::string("Unknown Event Type")	},
+			{ EventType::WindowMove,      std::string("Window Move")	    },
+			{ EventType::WindowFocus,     std::string("Window Focus")	    },
+			{ EventType::WindowFocusLoss, std::string("Window Focus Loss")  },
+			{ EventType::WindowResize,    std::string("Window Resize")	    },
+			{ EventType::WindowClose,     std::string("Window Close")	    },
+			{ EventType::KeyPress,        std::string("Key Press")		    },
+			{ EventType::KeyRelease,      std::string("Key Release")	    },
+			{ EventType::KeyRepeat,       std::string("Key Repeat")		    },
+			{ EventType::KeyType,         std::string("Key Type")		    },
+			{ EventType::MousePress,      std::string("Mouse Press")	    },
+			{ EventType::MouseRelease,    std::string("Mouse Release")	    },
+			{ EventType::MouseScroll,     std::string("Mouse Scroll")	    },
+			{ EventType::MouseMove,       std::string("Mouse Move")		    }
+		});
 
-			default:
-				return std::string("Unknown Event Type");
-		}
+		return eventMap.contains(_Val) ? eventMap.at(_Val) : eventMap.at(EventType::Invalid);
 	}
 }

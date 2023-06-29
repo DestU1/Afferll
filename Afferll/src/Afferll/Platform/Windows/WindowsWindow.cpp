@@ -2,8 +2,6 @@
 #include "Afferll/Platform/Windows/WindowsWindow.h"
 #include "Afferll/Events/Events.h"
 
-#pragma comment(lib, "Opengl32.lib")
-
 
 namespace Afferll
 {
@@ -56,9 +54,9 @@ namespace Afferll
 		return m_WindowDictionary[windowHandle];
 	}
 
-	void WindowsWindowManager::OnWindowCreate(HWND windowHandle, Window* window)
+	void WindowsWindowManager::OnWindowCreate(HWND windowHandle, const Window* window)
 	{
-		m_WindowDictionary[windowHandle] = window;
+		m_WindowDictionary[windowHandle] = (Window*)window;
 	}
 	void WindowsWindowManager::OnWindowClose(HWND windowHandle)
 	{
@@ -427,9 +425,9 @@ namespace Afferll
 			case VK_APPS:
 				return KeyCode::Applications;
 			case VK_RWIN:
-				return KeyCode::RightMenu;
+				return KeyCode::RightSuper;
 			case VK_LWIN:
-				return KeyCode::LeftMenu;
+				return KeyCode::LeftSuper;
 			case VK_MENU:
 				return ex ? KeyCode::RightAlt : KeyCode::LeftAlt;
 			case VK_SPACE:
@@ -543,29 +541,29 @@ namespace Afferll
 		AFRL_ASSERT(ret, "SetWindowTextA() failed.");
 
 		////////////////////////////////////////////////////////////
-		PIXELFORMATDESCRIPTOR pfd =
-		{
-			sizeof(PIXELFORMATDESCRIPTOR),
-			1,
-			PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER,    // Flags
-			PFD_TYPE_RGBA,        // The kind of framebuffer. RGBA or palette.
-			32,                   // Colordepth of the framebuffer.
-			0, 0, 0, 0, 0, 0,
-			0,
-			0,
-			0,
-			0, 0, 0, 0,
-			24,                   // Number of bits for the depthbuffer
-			8,                    // Number of bits for the stencilbuffer
-			0,                    // Number of Aux buffers in the framebuffer.
-			PFD_MAIN_PLANE,
-			0,
-			0, 0, 0
-		};
-		HDC hDc = GetDC(m_WindowHandle);
-		int pf = ChoosePixelFormat(hDc, &pfd);
-		SetPixelFormat(hDc, pf, &pfd);
-		HGLRC context = wglCreateContext(hDc);
-		wglMakeCurrent(hDc, context);
+		//PIXELFORMATDESCRIPTOR pfd =
+		//{
+		//	sizeof(PIXELFORMATDESCRIPTOR),
+		//	1,
+		//	PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER,    // Flags
+		//	PFD_TYPE_RGBA,        // The kind of framebuffer. RGBA or palette.
+		//	32,                   // Colordepth of the framebuffer.
+		//	0, 0, 0, 0, 0, 0,
+		//	0,
+		//	0,
+		//	0,
+		//	0, 0, 0, 0,
+		//	24,                   // Number of bits for the depthbuffer
+		//	8,                    // Number of bits for the stencilbuffer
+		//	0,                    // Number of Aux buffers in the framebuffer.
+		//	PFD_MAIN_PLANE,
+		//	0,
+		//	0, 0, 0
+		//};
+		//HDC hDc = GetDC(m_WindowHandle);
+		//int pf = ChoosePixelFormat(hDc, &pfd);
+		//SetPixelFormat(hDc, pf, &pfd);
+		//HGLRC context = wglCreateContext(hDc);
+		//wglMakeCurrent(hDc, context);
 	}
 }

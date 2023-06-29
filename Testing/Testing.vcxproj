@@ -46,12 +46,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)bin\obj\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-    <IncludePath>C:\Users\User\source\repos\Afferll\Afferll\src;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)src\;C:\Users\User\source\repos\Afferll\Afferll\src\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)bin\obj\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-    <IncludePath>C:\Users\User\source\repos\Afferll\Afferll\src;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)src\;C:\Users\User\source\repos\Afferll\Afferll\src\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

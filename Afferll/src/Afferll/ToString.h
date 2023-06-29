@@ -12,5 +12,5 @@ namespace Afferll
 	std::string AFRL_API ToString(bool _Val);
 	std::string AFRL_API ToString(char _Val);
 	std::string AFRL_API ToString(const char* _Val);
-	std::string AFRL_API ToString(std::string _Val);
+	std::string AFRL_API ToString(const std::string& _Val);
 }

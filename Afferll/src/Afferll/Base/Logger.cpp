@@ -97,23 +97,16 @@ namespace Afferll
 
 	std::string AFRL_API ToString(Logger::LogLevel _Val)
 	{
-		switch (_Val)
-		{
-		case Logger::LogLevel::Debug:
-			return std::string("Debug");
-		case Logger::LogLevel::Info:
-			return std::string("Info");
-		case Logger::LogLevel::Success:
-			return std::string("Success");
-		case Logger::LogLevel::Warning:
-			return std::string("Warning");
-		case Logger::LogLevel::Error:
-			return std::string("Error");
-		case Logger::LogLevel::Fatal:
-			return std::string("Fatal");
+		static const std::unordered_map<Logger::LogLevel, std::string> logLevelMap({
+			{ Logger::LogLevel::Invalid, std::string("Unknown log level") },
+			{ Logger::LogLevel::Debug,   std::string("Debug")			  },
+			{ Logger::LogLevel::Info,    std::string("Info")			  },
+			{ Logger::LogLevel::Success, std::string("Success")			  },
+			{ Logger::LogLevel::Warning, std::string("Warning")			  },
+			{ Logger::LogLevel::Error,   std::string("Error")			  },
+			{ Logger::LogLevel::Fatal,   std::string("Fatal")	    	  }
+		});
 
-		default:
-			return std::string("Unknown log level");
-		}
+		return logLevelMap.contains(_Val) ? logLevelMap.at(_Val) : logLevelMap.at(Logger::LogLevel::Invalid);
 	}
 }

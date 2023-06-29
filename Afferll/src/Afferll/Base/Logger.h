@@ -10,6 +10,7 @@ namespace Afferll
 	public:
 		enum class LogLevel
 		{
+			Invalid = -1,
 			Debug,
 			Info,
 			Success,
