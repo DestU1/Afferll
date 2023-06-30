@@ -10,11 +10,29 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Backend\imgui_impl_opengl3.h" />
+    <ClInclude Include="Backend\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="imconfig.h" />
+    <ClInclude Include="imgui.h" />
+    <ClInclude Include="imgui_internal.h" />
+    <ClInclude Include="imstb_rectpack.h" />
+    <ClInclude Include="imstb_textedit.h" />
+    <ClInclude Include="imstb_truetype.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Backend\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="imgui.cpp" />
+    <ClCompile Include="imgui_demo.cpp" />
+    <ClCompile Include="imgui_draw.cpp" />
+    <ClCompile Include="imgui_tables.cpp" />
+    <ClCompile Include="imgui_widgets.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{93609af5-af59-4068-8117-dc0b4537ec9d}</ProjectGuid>
-    <RootNamespace>Afferll</RootNamespace>
+    <ProjectGuid>{929f8396-0603-4eb7-96c8-135c28063da3}</ProjectGuid>
+    <RootNamespace>ImGui</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -46,28 +64,25 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)bin\obj\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-    <IncludePath>$(ProjectDir)src\;$(ProjectDir)3rdParty\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)bin\obj\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-    <IncludePath>$(ProjectDir)src\;$(ProjectDir)3rdParty\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>AFRL_LIBRARY;_CRT_SECURE_NO_WARNINGS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;IMGUI_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Create</PrecompiledHeader>
-      <PrecompiledHeaderFile>AfrlPch.h</PrecompiledHeaderFile>
-      <PreprocessToFile>false</PreprocessToFile>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <EnableUAC>false</EnableUAC>
     </Link>
     <PostBuildEvent>
       <Command>mkdir "$(TargetDir)..\Deploy\"
@@ -80,76 +95,24 @@ copy "$(TargetPath)" "$(TargetDir)..\Deploy\$(TargetName)$(TargetExt)" /y</Comma
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>AFRL_LIBRARY;_CRT_SECURE_NO_WARNINGS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;IMGUI_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Create</PrecompiledHeader>
-      <PrecompiledHeaderFile>AfrlPch.h</PrecompiledHeaderFile>
-      <PreprocessToFile>false</PreprocessToFile>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <EnableUAC>false</EnableUAC>
     </Link>
     <PostBuildEvent>
       <Command>mkdir "$(TargetDir)..\Deploy\"
 copy "$(TargetPath)" "$(TargetDir)..\Deploy\$(TargetName)$(TargetExt)" /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="src\Afferll\Base\Input.cpp" />
-    <ClCompile Include="src\Afferll\Events\KeyCode.cpp" />
-    <ClCompile Include="src\Afferll\Base\LayerStack.cpp" />
-    <ClCompile Include="src\Afferll\Base\Layer.cpp" />
-    <ClCompile Include="src\Afferll\Events\Event.cpp" />
-    <ClCompile Include="src\Afferll\Events\KeyboardEvents.cpp" />
-    <ClCompile Include="src\Afferll\Events\MouseEvents.cpp" />
-    <ClCompile Include="src\Afferll\Events\WindowEvents.cpp" />
-    <ClCompile Include="src\Afferll\Base\Logger.cpp" />
-    <ClCompile Include="src\Afferll\Base\Application.cpp" />
-    <ClCompile Include="src\Afferll\Base\Window.cpp" />
-    <ClCompile Include="src\Afferll\ImGui\ImGuiLayer.cpp" />
-    <ClCompile Include="src\Afferll\Platform\Windows\WindowsWindow.cpp" />
-    <ClCompile Include="src\Afferll\Base\Timer.cpp" />
-    <ClCompile Include="src\Afferll\ToString.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\Afferll\Base\Input.h" />
-    <ClInclude Include="src\Afferll\Base\Macros\Log.h" />
-    <ClInclude Include="src\Afferll\Base\LayerStack.h" />
-    <ClInclude Include="src\Afferll\Base\Layer.h" />
-    <ClInclude Include="src\Afferll\Base\Macros\Assert.h" />
-    <ClInclude Include="src\Afferll\Base\Macros\Debug.h" />
-    <ClInclude Include="src\Afferll\Base\Macros\DebugBreak.h" />
-    <ClInclude Include="src\Afferll\Base\Macros\Dll.h" />
-    <ClInclude Include="src\Afferll\Base\Macros\PlatformDetection.h" />
-    <ClInclude Include="src\Afferll\Events\Event.h" />
-    <ClInclude Include="src\Afferll\Events\Events.h" />
-    <ClInclude Include="src\Afferll\Events\KeyboardEvents.h" />
-    <ClInclude Include="src\Afferll\Events\KeyCode.h" />
-    <ClInclude Include="src\Afferll\Events\MouseEvents.h" />
-    <ClInclude Include="src\Afferll\Events\WindowEvents.h" />
-    <ClInclude Include="src\Afferll\ImGui\ImGuiLayer.h" />
-    <ClInclude Include="src\AfrlPch.cpp" />
-    <ClInclude Include="src\AfrlPch.h" />
-    <ClInclude Include="src\Afferll\Base\Logger.h" />
-    <ClInclude Include="src\Afferll\Base\Application.h" />
-    <ClInclude Include="src\Afferll\Base\Macros\Base.h" />
-    <ClInclude Include="src\Afferll.h" />
-    <ClInclude Include="src\Afferll\Base\EntryPoint.h" />
-    <ClInclude Include="src\Afferll\ToString.h" />
-    <ClInclude Include="src\Afferll\Base\Window.h" />
-    <ClInclude Include="src\Afferll\Platform\Windows\WindowsWindow.h" />
-    <ClInclude Include="src\Afferll\Base\Timer.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="3rdParty\ImGui\ImGui.vcxproj">
-      <Project>{929f8396-0603-4eb7-96c8-135c28063da3}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

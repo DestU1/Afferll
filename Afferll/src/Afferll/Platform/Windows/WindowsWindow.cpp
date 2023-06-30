@@ -2,6 +2,8 @@
 #include "Afferll/Platform/Windows/WindowsWindow.h"
 #include "Afferll/Events/Events.h"
 
+#pragma comment(lib, "opengl32.lib")
+
 
 namespace Afferll
 {
@@ -356,11 +358,11 @@ namespace Afferll
 			case VK_MULTIPLY:
 				return KeyCode::NumPadMultiply;
 			case VK_ADD:
-				return KeyCode::NumPadPlus;
+				return KeyCode::NumPadAdd;
 			case VK_SUBTRACT:
-				return KeyCode::NumPadMinus;
+				return KeyCode::NumPadSubtract;
 			case VK_DECIMAL:
-				return KeyCode::NumPadPeriod;
+				return KeyCode::NumPadDecimal;
 			case VK_DIVIDE:
 				return KeyCode::NumPadDivide;
 			case VK_NUMLOCK:
@@ -391,15 +393,15 @@ namespace Afferll
 			case VK_OEM_MINUS:
 				return KeyCode::Minus;
 			case VK_OEM_PLUS:
-				return KeyCode::Plus;
+				return KeyCode::Equal;
 			case VK_OEM_4:
 				return KeyCode::LeftBracket;
 			case VK_OEM_6:
 				return KeyCode::RightBracket;
 			case VK_OEM_5:
-				return KeyCode::BackSlash;
+				return KeyCode::Backslash;
 			case VK_OEM_1:
-				return KeyCode::SemiColon;
+				return KeyCode::Semicolon;
 			case VK_OEM_7:
 				return KeyCode::Apostrophe;
 			case VK_OEM_COMMA:
@@ -412,7 +414,7 @@ namespace Afferll
 			case VK_ESCAPE:
 				return KeyCode::Escape;
 			case VK_BACK:
-				return KeyCode::BackScape;
+				return KeyCode::Backspace;
 			case VK_RETURN:
 				return ex ? KeyCode::NumPadEnter : KeyCode::Enter;
 			case VK_SHIFT:
@@ -423,7 +425,7 @@ namespace Afferll
 			case VK_CONTROL:
 				return ex ? KeyCode::RightControl : KeyCode::LeftControl;
 			case VK_APPS:
-				return KeyCode::Applications;
+				return KeyCode::Menu;
 			case VK_RWIN:
 				return KeyCode::RightSuper;
 			case VK_LWIN:
@@ -450,7 +452,7 @@ namespace Afferll
 			case VK_PRIOR:
 				return ex ? KeyCode::PageUp : KeyCode::NumPad9;
 			case VK_DELETE:
-				return ex ? KeyCode::Delete : KeyCode::NumPadPeriod;
+				return ex ? KeyCode::Delete : KeyCode::NumPadDecimal;
 			case VK_END:
 				return ex ? KeyCode::End : KeyCode::NumPad1;
 			case VK_NEXT:
@@ -501,6 +503,10 @@ namespace Afferll
 	{
 		return m_Properties.m_Height;
 	}
+	void* WindowsWindow::GetNativeWindow()
+	{
+		return m_WindowHandle;
+	}
 
 	void WindowsWindow::SetEventCallback(const EventCallback_t& eventCallback)
 	{
@@ -539,31 +545,5 @@ namespace Afferll
 
 		ret = SetWindowTextA(m_WindowHandle, m_Properties.m_Title.c_str());
 		AFRL_ASSERT(ret, "SetWindowTextA() failed.");
-
-		////////////////////////////////////////////////////////////
-		//PIXELFORMATDESCRIPTOR pfd =
-		//{
-		//	sizeof(PIXELFORMATDESCRIPTOR),
-		//	1,
-		//	PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER,    // Flags
-		//	PFD_TYPE_RGBA,        // The kind of framebuffer. RGBA or palette.
-		//	32,                   // Colordepth of the framebuffer.
-		//	0, 0, 0, 0, 0, 0,
-		//	0,
-		//	0,
-		//	0,
-		//	0, 0, 0, 0,
-		//	24,                   // Number of bits for the depthbuffer
-		//	8,                    // Number of bits for the stencilbuffer
-		//	0,                    // Number of Aux buffers in the framebuffer.
-		//	PFD_MAIN_PLANE,
-		//	0,
-		//	0, 0, 0
-		//};
-		//HDC hDc = GetDC(m_WindowHandle);
-		//int pf = ChoosePixelFormat(hDc, &pfd);
-		//SetPixelFormat(hDc, pf, &pfd);
-		//HGLRC context = wglCreateContext(hDc);
-		//wglMakeCurrent(hDc, context);
 	}
 }

@@ -30,6 +30,7 @@ namespace Afferll
 		virtual const std::string& GetTitle() = 0;
 		virtual uint64_t GetWidth() = 0;
 		virtual uint64_t GetHeight() = 0;
+		virtual void* GetNativeWindow() = 0;
 
 		virtual void SetEventCallback(const EventCallback_t& eventCallback) = 0;
 		virtual void DispachEvent(Event& e) = 0;
