@@ -12,4 +12,6 @@
 	#else
 		#define AFRL_API
 	#endif
+#else 
+	#error "Unsupported platform!"
 #endif

@@ -13,4 +13,6 @@
 
 #ifdef AFRL_PLATFORM_WINDOWS
 	#include <Windows.h>
+#else 
+	#error "Unsupported platform!"
 #endif

@@ -5,10 +5,15 @@
 
 namespace Afferll
 {
+	///////////////////////////////////////////////////////////
+	// WindowsWindowManager ///////////////////////////////////
+	///////////////////////////////////////////////////////////
+
 	WindowsWindowManager* WindowsWindowManager::s_Instance = new WindowsWindowManager();
 
 	WindowsWindowManager::WindowsWindowManager()
-		: m_InstanceHandle(GetModuleHandle(NULL)), m_WindowClassName("AfferllWindow"), m_WindowClassRegistered(false), m_WindowDictionary()
+		: m_InstanceHandle(GetModuleHandle(NULL)), m_WindowClassName("AfferllWindow"), m_WindowClassRegistered(false),
+		m_WindowDictionary()
 	{
 		RegisterWindowClass();
 	}
@@ -22,7 +27,7 @@ namespace Afferll
 	{
 		return s_Instance;
 	}
-	void WindowsWindowManager::Destroy()
+	void WindowsWindowManager::Shutdown()
 	{
 		delete s_Instance;
 	}
@@ -233,7 +238,7 @@ namespace Afferll
 			{
 				WindowCloseEvent e;
 				window->DispachEvent(e);
-				break;
+				return 0;
 			}
 		}
 
@@ -465,21 +470,59 @@ namespace Afferll
 	}
 
 
+	///////////////////////////////////////////////////////////
+	// WindowsWindow //////////////////////////////////////////
+	///////////////////////////////////////////////////////////
+
 	WindowsWindow::WindowsWindow(const WindowProperties& properties)
-		: m_Properties(properties), m_WindowHandle(NULL), m_EventCallback(nullptr)
+		: m_Properties(properties), m_WindowHandle(NULL), m_EventCallback(nullptr),
+		m_Context()
 	{
-		Initialize();
 	}
 	WindowsWindow::~WindowsWindow()
 	{
-		Close();
+		delete m_Context;
+		Shutdown();
+		WindowsWindowManager::GetInstance()->Shutdown();
 	}
 
+	void WindowsWindow::Initialize()
+	{
+		RECT rect = { 0, 0, (LONG)m_Properties.m_Width, (LONG)m_Properties.m_Height };
+		bool ret = AdjustWindowRect(&rect, WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX, false);
+		AFRL_ASSERT(ret, "AdjustWindowRect() failed.");
+
+		m_WindowHandle = CreateWindowExA(
+			NULL,
+			WindowsWindowManager::GetInstance()->GetWindowClassName().c_str(),
+			NULL,
+			WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_VISIBLE | WS_SIZEBOX,
+			CW_USEDEFAULT,
+			CW_USEDEFAULT,
+			rect.right - rect.left,
+			rect.bottom - rect.top,
+			NULL,
+			NULL,
+			WindowsWindowManager::GetInstance()->GetInstanceHandle(),
+			NULL
+		);
+		AFRL_ASSERT(m_WindowHandle, "CreateWindowExA() failed.");
+
+		m_Context = new OpenGLContext();
+		m_Context->Initialize();
+
+		WindowsWindowManager::GetInstance()->OnWindowCreate(m_WindowHandle, this);
+		SetWindowLongPtrA(m_WindowHandle, GWLP_WNDPROC, (LONG_PTR)WindowsWindowManager::GetInstance()->WindowProcDispacher);
+
+		std::wstring wstr = std::wstring(m_Properties.m_Title.begin(), m_Properties.m_Title.end());
+		ret = SetWindowTextA(m_WindowHandle, (LPCSTR)wstr.c_str());
+		AFRL_ASSERT(ret, "SetWindowTextA() failed.");
+	}
 	void WindowsWindow::OnUpdate()
 	{
-		WindowsWindowManager::GetInstance()->ProcessMessages();
+		m_Context->SwapBuffers();
 	}
-	void WindowsWindow::Close()
+	void WindowsWindow::Shutdown()
 	{
 		if (m_WindowHandle != NULL)
 		{
@@ -505,7 +548,15 @@ namespace Afferll
 	{
 		return m_WindowHandle;
 	}
+	Context* WindowsWindow::GetContext()
+	{
+		return m_Context;
+	}
 
+	void WindowsWindow::ProcessMessages()
+	{
+		WindowsWindowManager::GetInstance()->ProcessMessages();
+	}
 	void WindowsWindow::SetEventCallback(const EventCallback_t& eventCallback)
 	{
 		m_EventCallback = eventCallback;
@@ -514,34 +565,5 @@ namespace Afferll
 	{
 		if (m_EventCallback)
 			m_EventCallback(e);
-	}
-
-	void WindowsWindow::Initialize()
-	{
-		RECT rect = { 0, 0, (LONG)m_Properties.m_Width, (LONG)m_Properties.m_Height };
-		bool ret = AdjustWindowRect(&rect, WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX, false);
-		AFRL_ASSERT(ret, "AdjustWindowRect() failed.");
-
-		m_WindowHandle = CreateWindowExA(
-			NULL,
-			WindowsWindowManager::GetInstance()->GetWindowClassName().c_str(),
-			NULL,
-			WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_VISIBLE | WS_SIZEBOX,
-			CW_USEDEFAULT,
-			CW_USEDEFAULT,
-			rect.right - rect.left,
-			rect.bottom - rect.top,
-			NULL,
-			NULL,
-			WindowsWindowManager::GetInstance()->GetInstanceHandle(),
-			NULL
-		);
-		AFRL_ASSERT(m_WindowHandle, "CreateWindowExA() failed.");
-
-		WindowsWindowManager::GetInstance()->OnWindowCreate(m_WindowHandle, this);
-		SetWindowLongPtrA(m_WindowHandle, GWLP_WNDPROC, (LONG_PTR)WindowsWindowManager::GetInstance()->WindowProcDispacher);
-
-		ret = SetWindowTextA(m_WindowHandle, m_Properties.m_Title.c_str());
-		AFRL_ASSERT(ret, "SetWindowTextA() failed.");
 	}
 }

@@ -4,13 +4,17 @@
 
 namespace Afferll
 {
+	///////////////////////////////////////////////////////////
+	// WindowMoveEvent ////////////////////////////////////////
+	///////////////////////////////////////////////////////////
+
 	class AFRL_API WindowMoveEvent : public Event
 	{
 	public:
 		WindowMoveEvent(int64_t left, int64_t top);
-		virtual ~WindowMoveEvent();
+		virtual ~WindowMoveEvent() override;
 
-		virtual EventType GetType() { return EventType::WindowMove; }
+		virtual EventType GetType() override { return EventType::WindowMove; }
 		static EventType GetStaticType() { return EventType::WindowMove; }
 		static EventGroup GetGroups()
 		{
@@ -27,13 +31,17 @@ namespace Afferll
 	};
 
 
+	///////////////////////////////////////////////////////////
+	// WindowFocusEvent ///////////////////////////////////////
+	///////////////////////////////////////////////////////////
+
 	class AFRL_API WindowFocusEvent : public Event
 	{
 	public:
 		WindowFocusEvent();
-		virtual ~WindowFocusEvent();
+		virtual ~WindowFocusEvent() override;
 
-		virtual EventType GetType() { return EventType::WindowFocus; }
+		virtual EventType GetType() override { return EventType::WindowFocus; }
 		static EventType GetStaticType() { return EventType::WindowFocus; }
 		static EventGroup GetGroups()
 		{
@@ -44,13 +52,17 @@ namespace Afferll
 	};
 
 
+	///////////////////////////////////////////////////////////
+	// WindowFocusLossEvent ///////////////////////////////////
+	///////////////////////////////////////////////////////////
+
 	class AFRL_API WindowFocusLossEvent : public Event
 	{
 	public:
 		WindowFocusLossEvent();
-		virtual ~WindowFocusLossEvent();
+		virtual ~WindowFocusLossEvent() override;
 
-		virtual EventType GetType() { return EventType::WindowFocusLoss; }
+		virtual EventType GetType() override { return EventType::WindowFocusLoss; }
 		static EventType GetStaticType() { return EventType::WindowFocusLoss; }
 		static EventGroup GetGroups()
 		{
@@ -61,13 +73,17 @@ namespace Afferll
 	};
 
 
+	///////////////////////////////////////////////////////////
+	// WindowResizeEvent //////////////////////////////////////
+	///////////////////////////////////////////////////////////
+
 	class AFRL_API WindowResizeEvent : public Event
 	{
 	public:
 		WindowResizeEvent(uint64_t width, uint64_t height);
-		virtual ~WindowResizeEvent();
+		virtual ~WindowResizeEvent() override;
 
-		virtual EventType GetType() { return EventType::WindowResize; }
+		virtual EventType GetType() override { return EventType::WindowResize; }
 		static EventType GetStaticType() { return EventType::WindowResize; }
 		static EventGroup GetGroups()
 		{
@@ -84,13 +100,17 @@ namespace Afferll
 	};
 
 
+	///////////////////////////////////////////////////////////
+	// WindowCloseEvent ///////////////////////////////////////
+	///////////////////////////////////////////////////////////
+
 	class AFRL_API WindowCloseEvent : public Event
 	{
 	public:
 		WindowCloseEvent();
-		virtual ~WindowCloseEvent();
+		virtual ~WindowCloseEvent() override;
 
-		virtual EventType GetType() { return EventType::WindowClose; }
+		virtual EventType GetType() override { return EventType::WindowClose; }
 		static EventType GetStaticType() { return EventType::WindowClose; }
 		static EventGroup GetGroups()
 		{

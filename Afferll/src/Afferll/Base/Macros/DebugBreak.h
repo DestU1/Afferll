@@ -7,6 +7,8 @@
 
 	#ifdef AFRL_PLATFORM_WINDOWS
 		#define AFRL_DEBUGBREAK() __debugbreak()
+	#else 
+		#error "Unsupported platform!"
 	#endif
 #else
 	#define AFRL_DEBUGBREAK()

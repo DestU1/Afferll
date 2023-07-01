@@ -11,7 +11,10 @@ namespace Afferll
 	LayerStack::~LayerStack()
 	{
 		for (uint64_t i = 0; i < GetCount(); ++i)
+		{
 			delete m_Stack[i];
+			m_Stack.erase(m_Stack.begin() + i);
+		}
 	}
 
 	Layer* LayerStack::GetLayer(uint64_t i)
@@ -25,7 +28,8 @@ namespace Afferll
 
 	void LayerStack::PushLayer(Layer* layer)
 	{
-		m_OverlayBegin = m_Stack.emplace(m_OverlayBegin, layer);
+		m_Stack.emplace(m_Stack.begin() + m_OverlayBegin, layer);
+		++m_OverlayBegin;
 		layer->OnAttach();
 	}
 	void LayerStack::PushOverlay(Layer* overlay)
@@ -35,7 +39,7 @@ namespace Afferll
 	}
 	void LayerStack::PopLayer(Layer* layer)
 	{
-		for (uint64_t i = 0; i < GetCount(); ++i)
+		for (uint64_t i = 0; i < m_OverlayBegin; ++i)
 		{
 			if (m_Stack[i] == layer)
 			{
@@ -48,7 +52,7 @@ namespace Afferll
 	}
 	void LayerStack::PopOverlay(Layer* overlay)
 	{
-		for (uint64_t i = 0; i < GetCount(); ++i)
+		for (uint64_t i = m_OverlayBegin; i < GetCount(); ++i)
 		{
 			if (m_Stack[i] == overlay)
 			{

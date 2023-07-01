@@ -8,4 +8,6 @@
 	#else
 		#define AFRL_NDEBUG
 	#endif
+#else 
+	#error "Unsupported platform!"
 #endif

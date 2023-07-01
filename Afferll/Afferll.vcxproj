@@ -100,6 +100,13 @@ copy "$(TargetPath)" "$(TargetDir)..\Deploy\$(TargetName)$(TargetExt)" /y</Comma
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Afferll\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\Afferll\Platform\OpenGL\OpenGLIndexBuffer.cpp" />
+    <ClCompile Include="src\Afferll\Platform\OpenGL\OpenGLShader.cpp" />
+    <ClCompile Include="src\Afferll\Platform\OpenGL\OpenGLVertexBuffer.cpp" />
+    <ClCompile Include="src\Afferll\Renderer\Shader.cpp" />
+    <ClCompile Include="src\Afferll\Renderer\IndexBuffer.cpp" />
+    <ClCompile Include="src\Afferll\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Afferll\Base\Input.cpp" />
     <ClCompile Include="src\Afferll\Events\KeyCode.cpp" />
     <ClCompile Include="src\Afferll\Base\LayerStack.cpp" />
@@ -114,13 +121,22 @@ copy "$(TargetPath)" "$(TargetDir)..\Deploy\$(TargetName)$(TargetExt)" /y</Comma
     <ClCompile Include="src\Afferll\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Afferll\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\Afferll\Base\Timer.cpp" />
+    <ClCompile Include="src\Afferll\Renderer\Context.cpp" />
     <ClCompile Include="src\Afferll\ToString.cpp" />
     <ClCompile Include="src\AfrlPch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\Afferll\Renderer\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Afferll\Renderer\Renderer.h" />
+    <ClInclude Include="src\Afferll\Platform\OpenGL\OpenGLIndexBuffer.h" />
+    <ClInclude Include="src\Afferll\Platform\OpenGL\OpenGLShader.h" />
+    <ClInclude Include="src\Afferll\Platform\OpenGL\OpenGLVertexBuffer.h" />
+    <ClInclude Include="src\Afferll\Renderer\Shader.h" />
+    <ClInclude Include="src\Afferll\Renderer\IndexBuffer.h" />
+    <ClInclude Include="src\Afferll\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Afferll\Base\Input.h" />
     <ClInclude Include="src\Afferll\Base\Macros\Log.h" />
     <ClInclude Include="src\Afferll\Base\LayerStack.h" />
@@ -137,6 +153,7 @@ copy "$(TargetPath)" "$(TargetDir)..\Deploy\$(TargetName)$(TargetExt)" /y</Comma
     <ClInclude Include="src\Afferll\Events\MouseEvents.h" />
     <ClInclude Include="src\Afferll\Events\WindowEvents.h" />
     <ClInclude Include="src\Afferll\ImGui\ImGuiLayer.h" />
+    <ClInclude Include="src\Afferll\Renderer\Context.h" />
     <ClInclude Include="src\AfrlPch.h" />
     <ClInclude Include="src\Afferll\Base\Logger.h" />
     <ClInclude Include="src\Afferll\Base\Application.h" />
@@ -147,8 +164,12 @@ copy "$(TargetPath)" "$(TargetDir)..\Deploy\$(TargetName)$(TargetExt)" /y</Comma
     <ClInclude Include="src\Afferll\Base\Window.h" />
     <ClInclude Include="src\Afferll\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\Afferll\Base\Timer.h" />
+    <ClInclude Include="src\Afferll\Renderer\VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="3rdParty\Glad\Glad.vcxproj">
+      <Project>{2c6d0536-22d6-41af-b6b3-dfa1a5310147}</Project>
+    </ProjectReference>
     <ProjectReference Include="3rdParty\ImGui\ImGui.vcxproj">
       <Project>{929f8396-0603-4eb7-96c8-135c28063da3}</Project>
     </ProjectReference>

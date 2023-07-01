@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Afferll", "Afferll\Afferll.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImGui", "Afferll\3rdParty\ImGui\ImGui.vcxproj", "{929F8396-0603-4EB7-96C8-135C28063DA3}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Glad", "Afferll\3rdParty\Glad\Glad.vcxproj", "{2C6D0536-22D6-41AF-B6B3-DFA1A5310147}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -27,6 +29,10 @@ Global
 		{929F8396-0603-4EB7-96C8-135C28063DA3}.Debug|x64.Build.0 = Debug|x64
 		{929F8396-0603-4EB7-96C8-135C28063DA3}.Release|x64.ActiveCfg = Release|x64
 		{929F8396-0603-4EB7-96C8-135C28063DA3}.Release|x64.Build.0 = Release|x64
+		{2C6D0536-22D6-41AF-B6B3-DFA1A5310147}.Debug|x64.ActiveCfg = Debug|x64
+		{2C6D0536-22D6-41AF-B6B3-DFA1A5310147}.Debug|x64.Build.0 = Debug|x64
+		{2C6D0536-22D6-41AF-B6B3-DFA1A5310147}.Release|x64.ActiveCfg = Release|x64
+		{2C6D0536-22D6-41AF-B6B3-DFA1A5310147}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,13 +5,17 @@
 
 namespace Afferll
 {
+	///////////////////////////////////////////////////////////
+	// KeyPressEvent //////////////////////////////////////////
+	///////////////////////////////////////////////////////////
+
 	class AFRL_API KeyPressEvent : public Event
 	{
 	public:
 		KeyPressEvent(KeyCode keyCode);
-		virtual ~KeyPressEvent();
+		virtual ~KeyPressEvent() override;
 
-		virtual EventType GetType() { return EventType::KeyPress; }
+		virtual EventType GetType() override { return EventType::KeyPress; }
 		static EventType GetStaticType() { return EventType::KeyPress; }
 		static EventGroup GetGroups()
 		{
@@ -29,13 +33,17 @@ namespace Afferll
 	};
 
 
+	///////////////////////////////////////////////////////////
+	// KeyReleaseEvent ////////////////////////////////////////
+	///////////////////////////////////////////////////////////
+
 	class AFRL_API KeyReleaseEvent : public Event
 	{
 	public:
 		KeyReleaseEvent(KeyCode keyCode);
-		virtual ~KeyReleaseEvent();
+		virtual ~KeyReleaseEvent() override;
 
-		virtual EventType GetType() { return EventType::KeyRelease; }
+		virtual EventType GetType() override { return EventType::KeyRelease; }
 		static EventType GetStaticType() { return EventType::KeyRelease; }
 		static EventGroup GetGroups()
 		{
@@ -53,13 +61,17 @@ namespace Afferll
 	};
 
 
+	///////////////////////////////////////////////////////////
+	// KeyRepeatEvent /////////////////////////////////////////
+	///////////////////////////////////////////////////////////
+
 	class AFRL_API KeyRepeatEvent : public Event
 	{
 	public:
 		KeyRepeatEvent(KeyCode keyCode);
-		virtual ~KeyRepeatEvent();
+		virtual ~KeyRepeatEvent() override;
 
-		virtual EventType GetType() { return EventType::KeyRepeat; }
+		virtual EventType GetType() override { return EventType::KeyRepeat; }
 		static EventType GetStaticType() { return EventType::KeyRepeat; }
 		static EventGroup GetGroups()
 		{
@@ -75,13 +87,17 @@ namespace Afferll
 	};
 
 
+	///////////////////////////////////////////////////////////
+	// KeyTypeEvent ///////////////////////////////////////////
+	///////////////////////////////////////////////////////////
+
 	class AFRL_API KeyTypeEvent : public Event
 	{
 	public:
 		KeyTypeEvent(char _char);
-		virtual ~KeyTypeEvent();
+		virtual ~KeyTypeEvent() override;
 
-		virtual EventType GetType() { return EventType::KeyType; }
+		virtual EventType GetType() override { return EventType::KeyType; }
 		static EventType GetStaticType() { return EventType::KeyType; }
 		static EventGroup GetGroups()
 		{

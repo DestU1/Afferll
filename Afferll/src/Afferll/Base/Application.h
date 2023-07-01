@@ -2,6 +2,9 @@
 #include "Afferll/Base/Macros/Base.h"
 #include "Afferll/Base/Window.h"
 #include "Afferll/Base/LayerStack.h"
+#include "Afferll/Renderer/VertexBuffer.h"
+#include "Afferll/Renderer/IndexBuffer.h"
+#include "Afferll/Renderer/Shader.h"
 
 
 namespace Afferll
@@ -11,6 +14,8 @@ namespace Afferll
 	public:
 		Application();
 		virtual ~Application();
+
+		static Application* Create();
 
 		static Application* GetInstance();
 		Window* GetWindow();
@@ -31,7 +36,11 @@ namespace Afferll
 		LayerStack m_LayerStack;
 
 		static Application* s_Instance;
-	};
 
-	Application* CreateApplication();
+
+		unsigned int m_VertexArray;
+		VertexBuffer* vb;
+		IndexBuffer* ib;
+		Shader* sdr;
+	};
 }

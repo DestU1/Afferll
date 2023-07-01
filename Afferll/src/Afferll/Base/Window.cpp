@@ -8,6 +8,10 @@
 
 namespace Afferll
 {
+	///////////////////////////////////////////////////////////
+	// WindowProperties ///////////////////////////////////////
+	///////////////////////////////////////////////////////////
+
 	WindowProperties::WindowProperties(const std::string& title, uint64_t width, uint64_t height)
 		: m_Title(title), m_Width(width), m_Height(height)
 	{
@@ -16,6 +20,10 @@ namespace Afferll
 	{
 	}
 
+
+	///////////////////////////////////////////////////////////
+	// Window /////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////
 
 	Window::~Window()
 	{
@@ -28,8 +36,7 @@ namespace Afferll
 #ifdef AFRL_PLATFORM_WINDOWS
 		return new WindowsWindow(properties);
 #else
-		AFRL_ASSERT(false, "Wtf");
-		return nullptr;
+	#error "Unsupported platform!"
 #endif
 	}
 }

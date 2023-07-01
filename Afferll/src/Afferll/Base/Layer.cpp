@@ -24,17 +24,4 @@ namespace Afferll
 	{
 		return m_Name;
 	}
-
-	void Layer::OnAttach()
-	{
-	}
-	void Layer::OnDetach()
-	{
-	}
-	void Layer::OnUpdate()
-	{
-	}
-	void Layer::OnEvent(Event& e)
-	{
-	}
 }

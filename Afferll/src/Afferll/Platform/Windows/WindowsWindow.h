@@ -2,10 +2,15 @@
 #include "Afferll/Base/Macros/Base.h"
 #include "Afferll/Base/Window.h"
 #include "Afferll/Events/KeyCode.h"
+#include "Afferll/Platform/OpenGL/OpenGLContext.h"
 
 
 namespace Afferll
 {
+	///////////////////////////////////////////////////////////
+	// WindowsWindowManager ///////////////////////////////////
+	///////////////////////////////////////////////////////////
+
 	class WindowsWindowManager
 	{
 	public:
@@ -13,7 +18,7 @@ namespace Afferll
 		~WindowsWindowManager();
 
 		static WindowsWindowManager* GetInstance();
-		void Destroy();
+		void Shutdown();
 
 		const std::string& GetWindowClassName();
 		HINSTANCE GetInstanceHandle();
@@ -31,38 +36,44 @@ namespace Afferll
 	private:
 		static KeyCode TranslateKeyCode(WPARAM wParam, LPARAM lParam);
 
+	private:
+		static WindowsWindowManager* s_Instance;
 
 		HINSTANCE m_InstanceHandle;
 		std::string m_WindowClassName;
 		bool m_WindowClassRegistered;
 		std::unordered_map<HWND, Window*> m_WindowDictionary;
-
-		static WindowsWindowManager* s_Instance;
 	};
+
+
+	///////////////////////////////////////////////////////////
+	// WindowsWindow //////////////////////////////////////////
+	///////////////////////////////////////////////////////////
 
 	class WindowsWindow : public Window
 	{
 	public:
 		WindowsWindow(const WindowProperties& properties);
-		virtual ~WindowsWindow();
+		virtual ~WindowsWindow() override;
 
-		virtual void OnUpdate();
-		virtual void Close();
+		virtual void Initialize() override;
+		virtual void OnUpdate() override;
+		virtual void Shutdown() override;
 
-		virtual const std::string& GetTitle();
-		virtual uint64_t GetWidth();
-		virtual uint64_t GetHeight();
-		virtual void* GetNativeWindow();
+		virtual const std::string& GetTitle() override;
+		virtual uint64_t GetWidth() override;
+		virtual uint64_t GetHeight() override;
+		virtual void* GetNativeWindow() override;
+		virtual Context* GetContext() override;
 
-		virtual void SetEventCallback(const EventCallback_t& eventCallback);
-		virtual void DispachEvent(Event& e);
+		virtual void ProcessMessages() override;
+		virtual void SetEventCallback(const EventCallback_t& eventCallback) override;
+		virtual void DispachEvent(Event& e) override;
 
 	private:
-		void Initialize();
-
-
 		WindowProperties m_Properties;
 		EventCallback_t m_EventCallback;
 		HWND m_WindowHandle;
+		Context* m_Context;
 	};
 }

@@ -21,6 +21,6 @@ namespace Afferll
 
 	private:
 		std::vector<Layer*> m_Stack;
-		std::vector<Layer*>::iterator m_OverlayBegin;
+		uint64_t m_OverlayBegin;
 	};
 }

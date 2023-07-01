@@ -5,13 +5,17 @@
 
 namespace Afferll
 {
+	///////////////////////////////////////////////////////////
+	// MousePressEvent ////////////////////////////////////////
+	///////////////////////////////////////////////////////////
+
 	class AFRL_API MousePressEvent : public Event
 	{
 	public:
 		MousePressEvent(MouseButton mouseButton);
-		virtual ~MousePressEvent();
+		virtual ~MousePressEvent() override;
 
-		virtual EventType GetType() { return EventType::MousePress; }
+		virtual EventType GetType() override { return EventType::MousePress; }
 		static EventType GetStaticType() { return EventType::MousePress; }
 		static EventGroup GetGroups() 
 		{
@@ -29,13 +33,17 @@ namespace Afferll
 	};
 
 
+	///////////////////////////////////////////////////////////
+	// MouseReleaseEvent //////////////////////////////////////
+	///////////////////////////////////////////////////////////
+
 	class AFRL_API MouseReleaseEvent : public Event
 	{
 	public:
 		MouseReleaseEvent(MouseButton mouseButton);
-		virtual ~MouseReleaseEvent();
+		virtual ~MouseReleaseEvent() override;
 
-		virtual EventType GetType() { return EventType::MouseRelease; }
+		virtual EventType GetType() override { return EventType::MouseRelease; }
 		static EventType GetStaticType() { return EventType::MouseRelease; }
 		static EventGroup GetGroups()
 		{
@@ -53,13 +61,17 @@ namespace Afferll
 	};
 
 
+	///////////////////////////////////////////////////////////
+	// MouseMoveEvent /////////////////////////////////////////
+	///////////////////////////////////////////////////////////
+
 	class AFRL_API MouseMoveEvent : public Event
 	{
 	public:
 		MouseMoveEvent(int64_t xPos, int64_t yPos);
-		virtual ~MouseMoveEvent();
+		virtual ~MouseMoveEvent() override;
 
-		virtual EventType GetType() { return EventType::MouseMove; }
+		virtual EventType GetType() override { return EventType::MouseMove; }
 		static EventType GetStaticType() { return EventType::MouseMove; }
 		static EventGroup GetGroups()
 		{
@@ -76,13 +88,17 @@ namespace Afferll
 	};
 
 
+	///////////////////////////////////////////////////////////
+	// MouseScrollEvent ///////////////////////////////////////
+	///////////////////////////////////////////////////////////
+
 	class AFRL_API MouseScrollEvent : public Event
 	{
 	public:
 		MouseScrollEvent(int64_t xOffset, int64_t yOffset);
-		virtual ~MouseScrollEvent();
+		virtual ~MouseScrollEvent() override;
 
-		virtual EventType GetType() { return EventType::MouseScroll; }
+		virtual EventType GetType() override { return EventType::MouseScroll; }
 		static EventType GetStaticType() { return EventType::MouseScroll; }
 		static EventGroup GetGroups()
 		{

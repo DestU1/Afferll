@@ -5,8 +5,6 @@
 
 namespace Afferll
 {
-	class Event;
-
 	class Layer
 	{
 	public:
@@ -17,10 +15,10 @@ namespace Afferll
 		void SetEnabled(bool enabled);
 		const std::string& GetName();
 
-		virtual void OnAttach();
-		virtual void OnDetach();
-		virtual void OnUpdate();
-		virtual void OnEvent(Event& e);
+		virtual void OnAttach() = 0;
+		virtual void OnDetach() = 0;
+		virtual void OnUpdate() = 0;
+		virtual void OnEvent(Event& e) = 0;
 
 	private:
 		bool m_Enabled;

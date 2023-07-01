@@ -6,14 +6,13 @@
 #include "Afferll/Base/Application.h"
 #include "Afferll/Base/Window.h"
 #include "Afferll/Events/Events.h"
-#include <GL/GL.h>
-#pragma comment(lib, "opengl32.lib")
+
 
 
 namespace Afferll
 {
 	ImGuiLayer::ImGuiLayer()
-		: Layer("ImGui"), m_GlContext()
+		: Layer(true, "ImGui"), m_GlContext()
 	{
 	}
 	ImGuiLayer::~ImGuiLayer()
@@ -147,28 +146,12 @@ namespace Afferll
 		io.KeyMap[ImGuiKey_PageDown]     = (int)KeyCode::PageDown;
 
 
-		PIXELFORMATDESCRIPTOR pfd = { };
-		pfd.nSize = sizeof(pfd);
-		pfd.nVersion = 1;
-		pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-		pfd.iPixelType = PFD_TYPE_RGBA;
-		pfd.cColorBits = 32;
-
-		HDC hDc = GetDC((HWND)window->GetNativeWindow());
-		int pf = ChoosePixelFormat(hDc, &pfd);
-		SetPixelFormat(hDc, pf, &pfd);
-		m_GlContext = wglCreateContext(hDc);
-		wglMakeCurrent(hDc, (HGLRC)m_GlContext);
-		ReleaseDC((HWND)window->GetNativeWindow(), hDc);
-
 		ImGui_ImplOpenGL3_Init("#version 410");
 	}
 	void ImGuiLayer::OnDetach()
 	{
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui::DestroyContext();
-		wglMakeCurrent(NULL, NULL);
-		wglDeleteContext((HGLRC)m_GlContext);
 	}
 	void ImGuiLayer::OnUpdate()
 	{
@@ -186,17 +169,9 @@ namespace Afferll
 
 		static bool show = true;
 		ImGui::ShowDemoWindow(&show);
-		glClearColor(0.1f, 0.1f, 0.1f, 1.f);
-		glClear(GL_COLOR_BUFFER_BIT);
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-		
-		Window* window = Application::GetInstance()->GetWindow();
-		HWND hWnd = (HWND)window->GetNativeWindow();
-		HDC hDc = GetDC(hWnd);
-		SwapBuffers(hDc);
-		ReleaseDC(hWnd, hDc);
 	}
 	void ImGuiLayer::OnEvent(Event& e)
 	{

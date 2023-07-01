@@ -12,7 +12,7 @@ public:
 	}
 };
 
-Afferll::Application* Afferll::CreateApplication()
+Afferll::Application* Afferll::Application::Create()
 {
 	return new TestApp();
 }
