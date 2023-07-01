@@ -7,12 +7,13 @@
 #include "Afferll/Base/Window.h"
 #include "Afferll/Events/Events.h"
 #include <GL/GL.h>
+#pragma comment(lib, "opengl32.lib")
 
 
 namespace Afferll
 {
 	ImGuiLayer::ImGuiLayer()
-		: Layer("ImGui")
+		: Layer("ImGui"), m_GlContext()
 	{
 	}
 	ImGuiLayer::~ImGuiLayer()
@@ -27,9 +28,11 @@ namespace Afferll
 
 		ImGuiIO& io = ImGui::GetIO();
 		Window* window = Application::GetInstance()->GetWindow();
-		io.DisplaySize = ImVec2(window->GetWidth(), window->GetHeight());
+		io.DisplaySize = ImVec2((float)window->GetWidth(), (float)window->GetHeight());
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+		io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
+
 
 		io.KeyMap[ImGuiKey_0] = (int)KeyCode::D0;
 		io.KeyMap[ImGuiKey_1] = (int)KeyCode::D1;
@@ -183,7 +186,7 @@ namespace Afferll
 
 		static bool show = true;
 		ImGui::ShowDemoWindow(&show);
-		glClearColor(0.1, 0.1, 0.1, 1);
+		glClearColor(0.1f, 0.1f, 0.1f, 1.f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		ImGui::Render();
@@ -236,7 +239,7 @@ namespace Afferll
 	void ImGuiLayer::OnMouseMove(MouseMoveEvent& e)
 	{
 		ImGuiIO& io = ImGui::GetIO();
-		io.MousePos = ImVec2(e.GetXPos(), e.GetYPos());
+		io.MousePos = ImVec2((float)e.GetXPos(), (float)e.GetYPos());
 	}
 	void ImGuiLayer::OnMouseScroll(MouseScrollEvent& e)
 	{
@@ -247,6 +250,6 @@ namespace Afferll
 	void ImGuiLayer::OnWindowResize(WindowResizeEvent& e)
 	{
 		ImGuiIO& io = ImGui::GetIO();
-		io.DisplaySize = ImVec2(e.GetWidth(), e.GetHeight());
+		io.DisplaySize = ImVec2((float)e.GetWidth(), (float)e.GetHeight());
 	}
 }

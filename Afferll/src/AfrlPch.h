@@ -6,6 +6,7 @@
 #include <ctime>
 #include <mutex>
 #include <functional>
+#include <chrono>
 
 
 #include "Afferll/Base/Macros/PlatformDetection.h"

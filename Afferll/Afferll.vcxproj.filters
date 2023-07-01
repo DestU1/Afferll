@@ -60,6 +60,9 @@
     <ClCompile Include="src\Afferll\ImGui\ImGuiLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\AfrlPch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Afferll\Base\Application.h">
@@ -81,9 +84,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\AfrlPch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\AfrlPch.cpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Afferll\Events\Event.h">

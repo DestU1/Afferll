@@ -2,8 +2,6 @@
 #include "Afferll/Platform/Windows/WindowsWindow.h"
 #include "Afferll/Events/Events.h"
 
-#pragma comment(lib, "opengl32.lib")
-
 
 namespace Afferll
 {

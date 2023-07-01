@@ -1,19 +1,10 @@
 #pragma once
 #include "Afferll/Base/Layer.h"
+#include "Afferll/Events/Events.h"
 
 
 namespace Afferll
 {
-	class Event;
-	class KeyPressEvent;
-	class KeyReleaseEvent;
-	class KeyTypeEvent;
-	class MousePressEvent;
-	class MouseReleaseEvent;
-	class MouseMoveEvent;
-	class MouseScrollEvent;
-	class WindowResizeEvent;
-
 	class ImGuiLayer : public Layer
 	{
 	public:

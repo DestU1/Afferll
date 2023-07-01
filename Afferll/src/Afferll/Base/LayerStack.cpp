@@ -1,6 +1,5 @@
 #include "AfrlPch.h"
 #include "Afferll/Base/LayerStack.h"
-#include "Afferll/Base/Layer.h"
 
 
 namespace Afferll

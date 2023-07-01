@@ -3,9 +3,13 @@
 
 
 #ifdef AFRL_PLATFORM_WINDOWS
-	#ifdef AFRL_LIBRARY
-		#define AFRL_API __declspec(dllexport)
+	#ifdef AFRL_BUILD_DLL
+		#ifdef AFRL_DLL
+			#define AFRL_API __declspec(dllexport)
+		#else
+			#define AFRL_API __declspec(dllimport)
+		#endif
 	#else
-		#define AFRL_API __declspec(dllimport)
+		#define AFRL_API
 	#endif
 #endif

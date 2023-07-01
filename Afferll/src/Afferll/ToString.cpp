@@ -4,11 +4,11 @@
 
 namespace Afferll
 {
-	std::string AFRL_API ToString(uint64_t _Val)
+	std::string AFRL_API ToString(unsigned long long _Val)
 	{
 		return std::to_string(_Val);
 	}
-	std::string AFRL_API ToString(int64_t _Val)
+	std::string AFRL_API ToString(long long _Val)
 	{
 		return std::to_string(_Val);
 	}

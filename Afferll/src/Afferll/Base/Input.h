@@ -1,5 +1,6 @@
 #pragma once
 #include "Afferll/Base/Macros/Base.h"
+#include "Afferll/Events/Events.h"
 #include "Afferll/Events/KeyCode.h"
 
 
@@ -9,13 +10,6 @@ namespace Afferll
 	{
 		int64_t X, Y;
 	};
-
-	class Event;
-	class KeyPressEvent;
-	class KeyReleaseEvent;
-	class MousePressEvent;
-	class MouseReleaseEvent;
-	class MouseMoveEvent;
 
 	class Input
 	{

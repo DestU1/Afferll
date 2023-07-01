@@ -114,7 +114,9 @@ namespace Afferll
 
 		char time[9];
 		std::time_t now = std::time(0);
-		std::strftime(time, sizeof(time), "%H:%M:%S", localtime(&now));
+		tm tm;
+		localtime_s(&tm, &now);
+		std::strftime(time, sizeof(time), "%H:%M:%S", &tm);
 
 		printf("%s[%s] %s (%s) - %s\n",
 			colorString.c_str(),
